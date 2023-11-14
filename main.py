@@ -69,7 +69,7 @@ def add_customer_page():
             client = storage.Client()
             bucket_name = "todo-app-405104.appspot.com"
             bucket = client.get_bucket(bucket_name)
-            blob_name = "sample-form-db/form.db"
+            blob_name = "customer-db/customer.db"
             blob = bucket.blob(blob_name)
             blob.upload_from_filename('/tmp/customer.db')
 
