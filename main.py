@@ -66,6 +66,11 @@ def add_customer_page():
             add_data_to_database(name,company,tel,email)
 
             #dbを上書きする
+            client = storage.Client()
+            bucket_name = "todo-app-405104.appspot.com"
+            bucket = client.get_bucket(bucket_name)
+            blob_name = "sample-form-db/form.db"
+            blob = bucket.blob(blob_name)
             blob.upload_from_filename('/tmp/customer.db')
 
             return render_template("success.html",name=name,company=company,tel=tel,email=email)
