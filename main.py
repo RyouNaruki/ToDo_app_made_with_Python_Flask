@@ -19,6 +19,9 @@ def customer_list_page():
 def task_page():
     return render_template("task.html")
 
+@app.route("/customer")
+def customer_page():
+    return render_template("customer.html")
 
 
 """
