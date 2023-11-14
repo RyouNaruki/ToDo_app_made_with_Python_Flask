@@ -35,7 +35,6 @@ def add_customer_page():
     else:
         return render_template("add_customer.html", form=form)
 
-"""
+
 if __name__ == "__main__":
-    app.run(debug=True)
-"""
+    app.run()
