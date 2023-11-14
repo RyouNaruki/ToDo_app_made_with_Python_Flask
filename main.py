@@ -58,7 +58,7 @@ def add_customer_page():
             client = storage.Client()
             bucket_name = "todo-app-405104.appspot.com"
             bucket = client.get_bucket(bucket_name)
-            blob_name = "customer.db"
+            blob_name = "/customer.db"
             blob = bucket.blob(blob_name)
             blob.download_to_filename('/tmp/customer.db')
 
