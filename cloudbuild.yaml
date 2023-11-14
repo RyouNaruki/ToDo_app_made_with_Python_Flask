@@ -1,0 +1,8 @@
+steps:
+
+# GitHubからリポジトリをクローン
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone', 'https://github.com/sayu349/ToDo_app_made_with_Python_Flask']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy', 'app.yaml']
