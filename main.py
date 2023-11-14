@@ -40,28 +40,23 @@ def customer_list_page():
     # 実行環境で条件分岐をする
     if os.getenv('GAE_ENV', '').startswith('standard'): # True = cloud, False = local
         # クラウド環境の場合
-            """
-            from google.cloud import storage
-            # GCS上のdbを取得する
-            client = storage.Client()
-            bucket_name = "todo-app-405104.appspot.com"
-            bucket = client.get_bucket(bucket_name)
-            blob_name = "customer-db/customer.db"
-            blob = bucket.blob(blob_name)
-            blob.download_to_filename("/tmp/customer.db")
+        from google.cloud import storage
+        # GCS上のdbを取得する
+        client = storage.Client()
+        bucket_name = "todo-app-405104.appspot.com"
+        bucket = client.get_bucket(bucket_name)
+        blob_name = "customer-db/customer.db"
+        blob = bucket.blob(blob_name)
+        blob.download_to_filename("/tmp/customer.db")
 
-            filepath = "/tmp/customer.db"
-            items = get_company_list(filepath)
-            return render_template("customer_list.html", items = items)
-            """
-            return render_template("customer_list.html")
+        items = get_company_list("/tmp/customer.db")
+        return render_template("customer_list.html", items = items)
     else:
         # ローカル環境の場合
-        # 企業一覧を取り出す
-        #filepath = "database/customer.db"
-        #items = get_company_list(filepath)
-        #return render_template("customer_list.html", items = items)
-        return render_template("customer_list.html")
+        #企業一覧を取り出す
+        filepath = "database/customer.db"
+        items = get_company_list(filepath)
+        return render_template("customer_list.html", items = items)
 
 @app.route("/task")
 def task_page():
