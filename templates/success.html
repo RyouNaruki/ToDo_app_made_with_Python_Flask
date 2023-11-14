@@ -7,6 +7,12 @@
 <body>
     <h1>顧客の追加が完了しました</h1>
     <hr>
+    <ul>
+        <li>名前：{{ name }}</li>
+        <li>会社名：{{ company }}</li>
+        <li>電話番号：{{ tel }}</li>
+        <li>メールアドレス：{{ email }}</li>
+    </ul>
     <p><a href="{{ url_for('customer_list_page') }}">顧客一覧ページへ戻る</a></p>
 </body>
 </html>
