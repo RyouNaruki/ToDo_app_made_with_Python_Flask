@@ -40,6 +40,7 @@ def customer_list_page():
     # 実行環境で条件分岐をする
     if os.getenv('GAE_ENV', '').startswith('standard'): # True = cloud, False = local
         # クラウド環境の場合
+            """
             from google.cloud import storage
             # GCS上のdbを取得する
             client = storage.Client()
@@ -52,13 +53,15 @@ def customer_list_page():
             filepath = "/tmp/customer.db"
             items = get_company_list(filepath)
             return render_template("customer_list.html", items = items)
-
+            """
+            return render_template("customer_list.html")
     else:
         # ローカル環境の場合
         # 企業一覧を取り出す
-        filepath = "database/customer.db"
-        items = get_company_list(filepath)
-        return render_template("customer_list.html", items = items)
+        #filepath = "database/customer.db"
+        #items = get_company_list(filepath)
+        #return render_template("customer_list.html", items = items)
+        return render_template("customer_list.html")
 
 @app.route("/task")
 def task_page():
@@ -92,6 +95,7 @@ def add_customer_page():
             blob_name = "customer-db/customer.db"
             blob = bucket.blob(blob_name)
             blob.download_to_filename("/tmp/customer.db")
+
             # データベースにデータを追加する
             add_data_to_database("/tmp/customer.db",name,company,tel,email)
 
