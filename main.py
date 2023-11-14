@@ -23,6 +23,9 @@ def task_page():
 def customer_page():
     return render_template("customer.html")
 
+@app.route("/add_customer")
+def add_customer_page():
+    return render_template("add_customer.html")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
