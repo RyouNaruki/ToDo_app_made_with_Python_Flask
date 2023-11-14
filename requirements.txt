@@ -1,3 +1,4 @@
 flask
 Pillow
 wtforms
+google-cloud-storage
