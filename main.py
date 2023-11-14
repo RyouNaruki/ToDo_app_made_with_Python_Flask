@@ -11,14 +11,24 @@ from forms import UserInfoForm
 
 
 # データベースにデータを追加する関数
-def add_data_to_database(name,company,tel,email):
+def add_data_to_database(filepath,name,company,tel,email):
     # databaseにレコードを追加
-    con = sqlite3.connect('database/customer.db')
+    con = sqlite3.connect(filepath)
     cur = con.cursor()
     cur.execute('INSERT INTO customer (name, company, tel, email) VALUES (?, ?, ?, ?)',
                 (name, company, tel, email))
     con.commit()
     con.close()
+
+
+# データベースから企業一覧を取り出す関数
+def get_company_list(filepath):
+    con = sqlite3.connect(filepath)
+    cur = con.cursor()
+    cur.execute("SELECT * FROM customer") # この中でクエリを書く
+    items = cur.fetchall()
+    con.close()
+    return items
 
 
 @app.route("/")
@@ -27,7 +37,28 @@ def top_page():
 
 @app.route("/customer_list")
 def customer_list_page():
-    return render_template("customer_list.html")
+    # 実行環境で条件分岐をする
+    if os.getenv('GAE_ENV', '').startswith('standard'): # True = cloud, False = local
+        # クラウド環境の場合
+            from google.cloud import storage
+            # GCS上のdbを取得する
+            client = storage.Client()
+            bucket_name = "todo-app-405104.appspot.com"
+            bucket = client.get_bucket(bucket_name)
+            blob_name = "customer-db/customer.db"
+            blob = bucket.blob(blob_name)
+            blob.download_to_filename("/tmp/customer.db")
+
+            filepath = "/tmp/customer.db"
+            items = get_company_list(filepath)
+            return render_template("customer_list.html", items = items)
+
+    else:
+        # ローカル環境の場合
+        # 企業一覧を取り出す
+        filepath = "database/customer.db"
+        items = get_company_list(filepath)
+        return render_template("customer_list.html", items = items)
 
 @app.route("/task")
 def task_page():
@@ -60,10 +91,9 @@ def add_customer_page():
             bucket = client.get_bucket(bucket_name)
             blob_name = "customer-db/customer.db"
             blob = bucket.blob(blob_name)
-            blob.download_to_filename('/tmp/customer.db')
-
+            blob.download_to_filename("/tmp/customer.db")
             # データベースにデータを追加する
-            add_data_to_database(name,company,tel,email)
+            add_data_to_database("/tmp/customer.db",name,company,tel,email)
 
             #dbを上書きする
             client = storage.Client()
@@ -77,7 +107,8 @@ def add_customer_page():
         else:
             # ローカル環境の場合
             # データベースにデータを追加する
-            add_data_to_database(name,company,tel,email)
+            filepath = "database/customer.db"
+            add_data_to_database(filepath,name,company,tel,email)
             return render_template("success.html",name=name,company=company,tel=tel,email=email)
 
     # GET
