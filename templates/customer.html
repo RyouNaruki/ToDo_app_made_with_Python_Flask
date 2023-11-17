@@ -7,6 +7,15 @@
 <body>
     <h1>顧客情報ページ</h1>
     <hr>
+    {% for item in items %}
+        {% if id==item[0] %}
+            <li>{{ item[0] }}</li>
+            <li>{{ item[1] }}</li>
+            <li>{{ item[2] }}</li>
+            <li>{{ item[3] }}</li>
+            <li>{{ item[4] }}</li>
+        {% endif %}
+    {% endfor %}
     <p><a href="{{ url_for('customer_list_page') }}">顧客一覧ページへ戻る</a></p>
 </body>
 </html>

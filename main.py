@@ -62,9 +62,29 @@ def customer_list_page():
 def task_page():
     return render_template("task.html")
 
-@app.route("/customer")
-def customer_page():
-    return render_template("customer.html")
+@app.route("/customer-<int:id>")
+def customer_page(id):
+    # 実行環境で条件分岐をする
+    if os.getenv('GAE_ENV', '').startswith('standard'): # True = cloud, False = local
+        # クラウド環境の場合
+        from google.cloud import storage
+        # GCS上のdbを取得する
+        client = storage.Client()
+        bucket_name = "todo-app-405104.appspot.com"
+        bucket = client.get_bucket(bucket_name)
+        blob_name = "customer-db/customer.db"
+        blob = bucket.blob(blob_name)
+        blob.download_to_filename("/tmp/customer.db")
+
+        items = get_company_list("/tmp/customer.db")
+
+        return render_template("customer.html",id=id,items=items)
+    else:
+        # データベースから企業一覧を取り出す関数
+        filepath = "database/customer.db"
+        items = get_company_list(filepath)
+
+        return render_template("customer.html",id=id,items=items)
 
 @app.route("/add_customer", methods=["GET","POST"])
 def add_customer_page():
