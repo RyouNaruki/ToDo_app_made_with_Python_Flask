@@ -1,14 +1,14 @@
 from wtforms import Form
 
 from wtforms.fields import (
-    StringField, PasswordField, DateField,
-    SelectField, BooleanField, TextAreaField,
-    SubmitField
+    IntegerField,StringField, PasswordField,
+    DateField,SelectField, BooleanField,
+    TextAreaField,SubmitField
 )
 # python3.11以上の場合
-#from wtforms.fields.html5 import EmailField
+from wtforms.fields.html5 import EmailField
 #python 3.11未満の場合
-from wtforms.fields import EmailField
+#from wtforms.fields import EmailField
 
 from wtforms.validators import (
     DataRequired, Email, EqualTo
@@ -16,6 +16,8 @@ from wtforms.validators import (
 
 
 class UserInfoForm(Form):
+    # ID：数値入力
+    id = IntegerField("ID")
     # 名前：文字列入力
     name = StringField("名前", render_kw={"placeholder":"(例)山田 太郎"}, validators=[DataRequired("お名前の入力は必須です")])
     # 年齢：静数値入力

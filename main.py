@@ -11,12 +11,12 @@ from forms import UserInfoForm
 
 
 # データベースにデータを追加する関数
-def add_data_to_database(filepath,name,company,tel,email):
+def add_data_to_database(filepath,id,name,company,tel,email):
     # databaseにレコードを追加
     con = sqlite3.connect(filepath)
     cur = con.cursor()
-    cur.execute('INSERT INTO customer (name, company, tel, email) VALUES (?, ?, ?, ?)',
-                (name, company, tel, email))
+    cur.execute('INSERT INTO customer (id, name, company, tel, email) VALUES (? ,?, ?, ?, ?)',
+                (id, name, company, tel, email))
     con.commit()
     con.close()
 
@@ -71,6 +71,8 @@ def add_customer_page():
     form = UserInfoForm(request.form)
     # POST
     if request.method == "POST":
+        # ID
+        id = form.id.data
         # お名前
         name = form.name.data
         # 会社名
@@ -92,18 +94,18 @@ def add_customer_page():
             blob.download_to_filename("/tmp/customer.db")
 
             # データベースにデータを追加する
-            add_data_to_database("/tmp/customer.db",name,company,tel,email)
+            add_data_to_database("/tmp/customer.db",id,name,company,tel,email)
 
             #dbを上書きする
             blob.upload_from_filename('/tmp/customer.db')
 
-            return render_template("success.html",name=name,company=company,tel=tel,email=email)
+            return render_template("success.html",id=id,name=name,company=company,tel=tel,email=email)
         else:
             # ローカル環境の場合
             # データベースにデータを追加する
             filepath = "database/customer.db"
-            add_data_to_database(filepath,name,company,tel,email)
-            return render_template("success.html",name=name,company=company,tel=tel,email=email)
+            add_data_to_database(filepath,id,name,company,tel,email)
+            return render_template("success.html",id=id,name=name,company=company,tel=tel,email=email)
 
     # GET
     else:
