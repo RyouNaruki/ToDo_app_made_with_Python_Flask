@@ -6,18 +6,17 @@ from wtforms.fields import (
     TextAreaField,SubmitField
 )
 # python3.11以上の場合
-#from wtforms.fields.html5 import EmailField
+from wtforms.fields.html5 import EmailField
 #python 3.11未満の場合
-from wtforms.fields import EmailField
+#from wtforms.fields import EmailField
 
 from wtforms.validators import (
     DataRequired, Email, EqualTo
 )
 
 
-class UserInfoForm(Form):
-    # ID：数値入力
-    id = IntegerField("ID")
+# 顧客追加フォーム
+class AddCustomerForm(Form):
     # 名前：文字列入力
     name = StringField("名前", render_kw={"placeholder":"(例)山田 太郎"}, validators=[DataRequired("お名前の入力は必須です")])
     # 年齢：静数値入力
@@ -30,3 +29,7 @@ class UserInfoForm(Form):
     confirm_email = EmailField("メールアドレス確認", render_kw={"placeholder":"xxxx@example.com"}, validators=[Email("メールアドレスのフォーマットではありません")])
     # ボタン
     submit = SubmitField("送信")
+
+# ▼▼▼タスク追加フォームの型を作ってみよう▼▼▼
+
+# ▲▲▲タスク追加フォームの型を作ってみよう▲▲▲
