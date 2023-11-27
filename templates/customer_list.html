@@ -11,20 +11,25 @@
     <table border = "1">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>名前</th>
+                <th>顧客ID</th>
                 <th>会社名</th>
                 <th>電話番号</th>
                 <th>メールアドレス</th>
+                <th>契約状況</th>
             </tr>
         </thead>
         <tbody>
             {% for item in items %}
             <tr>
-                <td><a href="{{ url_for('customer_page', id=item[0]) }}">{{ item[0] }}</a></td>
-                <td>{{ item[1] }}</td>
+                <!-- 顧客ID -->
+                <td>{{ item[0] }}</td>
+                <!-- 会社名 -->
+                <td><a href="{{ url_for('customer_page', id=item[0]) }}">{{ item[1] }}</a></td>
+                <!-- 電話番号 -->
                 <td>{{ item[2] }}</td>
+                <!-- メールアドレス -->
                 <td>{{ item[3] }}</td>
+                <!-- 契約状況 -->
                 <td>{{ item[4] }}</td>
             </tr>
             {% endfor %}

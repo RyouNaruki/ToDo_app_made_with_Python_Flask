@@ -19,7 +19,21 @@ def customer_list_page():
     filepath = "database/todo_app.db"
     con = sqlite3.connect(filepath)
     cur = con.cursor()
-    cur.execute("SELECT * FROM customer") # この中でクエリを書く
+    # この中でクエリを書く
+    cur.execute("""
+            SELECT
+                customer_id,
+                company,
+                tel,
+                email,
+                contract_name
+            FROM
+                customer
+            LEFT JOIN
+                contract
+            ON
+                customer.is_contract = contract.contract_id
+            """)
     items = cur.fetchall()
     con.close()
     return render_template("customer_list.html", items = items)
@@ -34,7 +48,21 @@ def customer_page(id):
     filepath = "database/todo_app.db"
     con = sqlite3.connect(filepath)
     cur = con.cursor()
-    cur.execute("SELECT * FROM customer") # この中でクエリを書く
+    # この中でクエリを書く
+    cur.execute("""
+            SELECT
+                customer_id,
+                company,
+                tel,
+                email,
+                contract_name
+            FROM
+                customer
+            LEFT JOIN
+                contract
+            ON
+                customer.is_contract = contract.contract_id
+            """)
     items = cur.fetchall()
     con.close()
 
@@ -45,8 +73,6 @@ def add_customer_page():
     form = AddCustomerForm(request.form)
     # POST
     if request.method == "POST":
-        # お名前
-        name = form.name.data
         # 会社名
         company = form.company.data
         # お電話番号
@@ -54,18 +80,21 @@ def add_customer_page():
         # メールアドレス
         email = form.email.data
 
+        # 契約状況（新たな顧客追加なので強制的に1となる）
+        is_contract = 1
+
         # DBに顧客情報を追加する
         filepath = "database/todo_app.db"
         # databaseにレコードを追加
         con = sqlite3.connect(filepath)
         cur = con.cursor()
-        cur.execute('INSERT INTO customer (name, company, tel, email) VALUES (?, ?, ?, ?)',
-                    (name, company, tel, email))
+        cur.execute('INSERT INTO customer (company, tel, email, is_contract) VALUES (?, ?, ?, ?)',
+                    (company, tel, email, is_contract))
         con.commit()
         con.close()
 
         # データ出力
-        return render_template("success_add_customer.html",name=name,company=company,tel=tel,email=email)
+        return render_template("success_add_customer.html",company=company,tel=tel,email=email)
     # GET
     else:
         return render_template("add_customer.html", form=form)

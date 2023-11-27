@@ -1,9 +1,7 @@
 from wtforms import Form
 
 from wtforms.fields import (
-    IntegerField,StringField, PasswordField,
-    DateField,SelectField, BooleanField,
-    TextAreaField,SubmitField
+    StringField, SubmitField
 )
 # python3.11以上の場合
 from wtforms.fields.html5 import EmailField
@@ -17,8 +15,6 @@ from wtforms.validators import (
 
 # 顧客追加フォーム
 class AddCustomerForm(Form):
-    # 名前：文字列入力
-    name = StringField("名前", render_kw={"placeholder":"(例)山田 太郎"}, validators=[DataRequired("お名前の入力は必須です")])
     # 年齢：静数値入力
     company = StringField("会社名", render_kw={"placeholder":"〇〇〇〇株式会社"})
     # お電話番号：文字列入力
