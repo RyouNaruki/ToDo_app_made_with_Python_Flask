@@ -24,9 +24,9 @@ def customer_list_page():
     con.close()
     return render_template("customer_list.html", items = items)
 
-@app.route("/task")
-def task_page():
-    return render_template("task.html")
+@app.route("/task_view")
+def task_view_page():
+    return render_template("task_view.html")
 
 @app.route("/customer-<int:id>")
 def customer_page(id):
@@ -65,7 +65,7 @@ def add_customer_page():
         con.close()
 
         # データ出力
-        return render_template("success.html",name=name,company=company,tel=tel,email=email)
+        return render_template("success_add_customer.html",name=name,company=company,tel=tel,email=email)
     # GET
     else:
         return render_template("add_customer.html", form=form)
