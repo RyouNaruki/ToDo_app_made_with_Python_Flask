@@ -6,6 +6,7 @@ import sqlite3
 
 # 顧客追加フォームを読み込む
 from forms import AddCustomerForm
+from forms import AddTaskForm
 
 app = Flask(__name__)
 
@@ -49,6 +50,7 @@ def customer_page(id):
     con = sqlite3.connect(filepath)
     cur = con.cursor()
     # この中でクエリを書く
+    # 顧客情報
     cur.execute("""
             SELECT
                 customer_id,
@@ -64,9 +66,18 @@ def customer_page(id):
                 customer.is_contract = contract.contract_id
             """)
     items = cur.fetchall()
+
+    # タスク情報
+    cur.execute("""
+            SELECT
+                *
+            FROM
+                task
+            """)
+    tasks = cur.fetchall()
     con.close()
 
-    return render_template("customer.html",id=id,items=items)
+    return render_template("customer.html",id=id,items=items, tasks=tasks)
 
 @app.route("/add_customer", methods=["GET","POST"])
 def add_customer_page():
@@ -102,7 +113,43 @@ def add_customer_page():
 # ▼▼▼---ココに、タスク追加をするページを作成してみよう！---▼▼▼
 @app.route("/add_task", methods=["GET","POST"])
 def add_task_page():
-    return render_template("add_task.html")
+    form = AddTaskForm(request.form)
+    # POST
+    if request.method == "POST":
+        # 顧客ID
+        customer_id = form.customer_id.data
+        # 先方の担当者様
+        sir = form.sir.data
+        # タスクの内容
+        task_content = form.task_content.data
+        #期日
+        deadline = form.deadline.data
+        #担当者
+        pic = form.pic.data
+        #タスクの進捗状況
+        progress = form.progress.data
+        
+        # DBに顧客情報を追加する
+        filepath = "database/todo_app.db"
+        # databaseにレコードを追加
+        con = sqlite3.connect(filepath)
+        cur = con.cursor()
+        cur.execute('INSERT INTO task (customer_id, sir, task_content, deadline, pic, progress) VALUES (?, ?, ?, ?, ?, ?)',
+                    (customer_id, sir, task_content, deadline, pic, progress))
+        con.commit()
+        con.close()
+
+        #出力
+        return render_template("success_add_task.html", 
+                               customer_id=customer_id, 
+                               sir=sir,
+                               task_content=task_content,
+                               deadline=deadline,
+                               pic=pic,
+                               progress=progress)
+    # GET
+    else:
+        return render_template("add_task.html", form=form)
 # ▲▲▲---ココに、タスク追加をするページを作成してみよう！---▲▲▲
 
 

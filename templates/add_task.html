@@ -5,6 +5,16 @@
     <title>Document</title>
 </head>
 <body>
-    <p>ここにタスク追加ページを作成します。</p>
+    <h1>タスク追加ページ</h1>
+    <hr>
+    <form method="POST">
+        {{ form.customer_id.label }}{{ form.customer_id(size=20) }}<br>
+        {{ form.sir.label }}{{ form.sir(size=20) }}<br>
+        {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px") }}<br>
+        {{ form.deadline.label }}{{ form.deadline() }}<br>
+        {{ form.pic.label }}{{ form.pic() }}<br>
+        {{ form.progress.label }}{{ form.progress() }}<br>
+        {{ form.submit() }}
+    <p><a href="{{ url_for('customer_list_page') }}">顧客一覧ページへ戻る</a></p>
 </body>
 </html>

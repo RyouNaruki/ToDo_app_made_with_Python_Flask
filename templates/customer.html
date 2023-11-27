@@ -16,6 +16,44 @@
             <li>契約状況：{{ item[4] }}</li>
         {% endif %}
     {% endfor %}
+    <hr>
+    <table border = "1">
+        <thead>
+            <tr>
+                <th>タスクID</th>
+                <th>顧客ID</th>
+                <th>先方の担当者様</th>
+                <th>タスクの内容</th>
+                <th>期日</th>
+                <th>担当者</th>
+                <th>タスクの進捗状況</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                {% if id==task[1] %}
+                    <tr>
+                        <!-- タスクID -->
+                        <td>{{ task[0] }}</td>
+                        <!-- 顧客ID -->
+                        <td>{{ task[1] }}</td>
+                        <!-- 先方の担当者様 -->
+                        <td>{{ task[2] }}</td>
+                        <!-- タスクの内容 -->
+                        <td>{{ task[3] }}</td>
+                        <!-- 期日 -->
+                        <td>{{ task[4] }}</td>
+                        <!-- 担当者 -->
+                        <td>{{ task[5] }}</td>
+                        <!-- タスクの進捗状況 -->
+                        <td>{{ task[6] }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+
     <p><a href="{{ url_for('customer_list_page') }}">顧客一覧ページへ戻る</a></p>
     <p><a href="{{ url_for('add_task_page') }}">タスク追加ページへ移動する</a></p>
 </body>
