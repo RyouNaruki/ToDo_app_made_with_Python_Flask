@@ -5,6 +5,16 @@
     <title>success_add_task</title>
 </head>
 <body>
-    <p>ここにタスク追加成功を示すページを作成します</p>
+    <h1>タスクの追加が完了しました</h1>
+    <hr>
+    <ul>
+        <li>顧客ID：{{ customer_id }}</li>
+        <li>先方の担当者様：{{ sir }}</li>
+        <li>タスク内容：{{ task_content }}</li>
+        <li>期日：{{ deadline }}</li>
+        <li>担当者：{{ pic }}</li>
+        <li>タスクの進捗状況：{{ progress }}</li>
+    </ul>
+    <p><a href="{{ url_for('customer_list_page') }}">顧客一覧ページへ戻る</a></p>
 </body>
 </html>
