@@ -4,19 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>task_view</title>
+
+    <!--CSSのコード-->
+    <style>
+        .button {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          text-align: center;
+          text-decoration: none;
+          cursor: pointer;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #f0f0f0;
+          color: #333;
+        }
+    
+        .button:hover {
+          background-color: #e0e0e0;
+        }
+      </style>
+      <!--ここまでCSSのコード-->
 </head>
 <body>
     <h1>タスクページ</h1>
     <hr>
-    {% for task in tasks %}        
-        <li>タスクID：{{ task[0] }}</li>
-        <li>顧客ID：{{ task[1] }}</li>
-        <li>先方の担当者様：{{ task[2] }}</li>
-        <li>タスク内容：{{ task[3] }}</li>
-        <li>期日：{{ task[4] }}</li>
-        <li>担当者：{{ task[5] }}</li>
-        <li>タスクの進捗状況：{{ task[6] }}</li>
-    {% endfor %}
-    <p><a href="{{ url_for('top_page') }}">topページに戻る</a></p>
+    <table border = "1">
+        <thead>
+            <tr>
+                <th>タスクID</th>
+                <th>顧客ID</th>
+                <th>先方の担当者様</th>
+                <th>タスクの内容</th>
+                <th>期日</th>
+                <th>担当者</th>
+                <th>タスクの進捗状況</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <!-- タスクID -->
+                    <td>{{ task[0] }}</td>
+                    <!-- 顧客ID -->
+                    <td>{{ task[1] }}</td>
+                    <!-- 先方の担当者様 -->
+                    <td>{{ task[2] }}</td>
+                    <!-- タスクの内容 -->
+                    <td>{{ task[3] }}</td>
+                    <!-- 期日 -->
+                    <td>{{ task[4] }}</td>
+                    <!-- 担当者 -->
+                    <td>{{ task[5] }}</td>
+                    <!-- タスクの進捗状況 -->
+                    <td>{{ task[6] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
+    <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
 </body>
 </html>

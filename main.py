@@ -39,6 +39,7 @@ def customer_list_page():
     con.close()
     return render_template("customer_list.html", items = items)
 
+#task_viewのページを作成します。
 @app.route("/task_view")
 def task_view_page():
     #DBからタスク一覧を取り出す
@@ -46,19 +47,25 @@ def task_view_page():
     con = sqlite3.connect(filepath)
     cur = con.cursor()
     # この中でクエリを書く
+    #
     cur.execute("""
             SELECT
-                *
+                * 
             FROM
                 task
+            LEFT JOIN
+                customer
+            ON
+                task.customer_id = customer.customer_id 
             WHERE
-                progress IS NOT "完了"
-            ORDER BY 
+                progress NOT IN ("完了")
+            ORDER BY
                 deadline
             """)
     tasks = cur.fetchall()
     con.close()
-    return render_template("task_view.html")
+
+    return render_template("task_view.html" , tasks = tasks)
 
 @app.route("/customer-<int:id>")
 def customer_page(id):
