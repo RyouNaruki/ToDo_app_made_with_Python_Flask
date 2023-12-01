@@ -41,6 +41,23 @@ def customer_list_page():
 
 @app.route("/task_view")
 def task_view_page():
+    #DBからタスク一覧を取り出す
+    filepath = "database/todo_app.db"
+    con = sqlite3.connect(filepath)
+    cur = con.cursor()
+    # この中でクエリを書く
+    cur.execute("""
+            SELECT
+                *
+            FROM
+                task
+            WHERE
+                progress IS NOT "完了"
+            ORDER BY 
+                deadline
+            """)
+    tasks = cur.fetchall()
+    con.close()
     return render_template("task_view.html")
 
 @app.route("/customer-<int:id>")
