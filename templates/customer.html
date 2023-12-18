@@ -67,7 +67,7 @@
                         <!-- 担当者 -->
                         <td>{{ task[5] }}</td>
                         <!-- タスクの進捗状況 -->
-                        <td>{{ task[6] }}</td>
+                        <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
                     </tr>
                 {% endif %}
             {% endfor %}

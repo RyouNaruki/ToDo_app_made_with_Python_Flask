@@ -1,6 +1,9 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import redirect
+from flask import url_for
+
 import os
 import sqlite3
 
@@ -176,6 +179,48 @@ def add_task_page():
         return render_template("add_task.html", form=form)
 # ▲▲▲---ココに、タスク追加をするページを作成してみよう！---▲▲▲
 
+@app.route("/update_task-<int:task_id>", methods=["GET","POST"])
+def update_task_page(task_id):
+    form = AddTaskForm(request.form)
+    # POST
+    if request.method == "POST":
+        # 顧客ID
+        customer_id = form.customer_id.data
+        # 先方の担当者様
+        sir = form.sir.data
+        # タスクの内容
+        task_content = form.task_content.data
+        #期日
+        deadline = form.deadline.data
+        #担当者
+        pic = form.pic.data
+        #タスクの進捗状況
+        progress = form.progress.data
+        
+        # DBに顧客情報を追加する
+        filepath = "database/todo_app.db"
+        # databaseにレコードを追加
+        con = sqlite3.connect(filepath)
+        cur = con.cursor()
+        cur.execute("""UPDATE
+                            task
+                        SET
+                            customer_id=?,
+                            sir=?,
+                            task_content=?,
+                            deadline=?,
+                            pic=?,
+                            progress=?
+                        WHERE
+                            task_id=?
+                        """,
+                    (customer_id, sir, task_content, deadline, pic, progress, task_id))
+        con.commit()
+        con.close()
+        return redirect(url_for("task_view_page"))
+    # GET
+    else:
+        return render_template("update_task.html", form=form, task_id=task_id)
 
 
 if __name__ == "__main__":
