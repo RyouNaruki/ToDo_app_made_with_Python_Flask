@@ -29,7 +29,7 @@
     <h1>タスク追加ページ</h1>
     <hr>
     <form method="POST">
-        {{ form.customer_id.label }}{{ form.customer_id(size=20, value=2) }}<br>
+        {{ form.customer_id.label }}{{ form.customer_id(size=20) }}<br>
         {{ form.sir.label }}{{ form.sir(size=20) }}<br>
         {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px") }}<br>
         {{ form.deadline.label }}{{ form.deadline() }}<br>

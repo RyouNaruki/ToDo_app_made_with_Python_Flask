@@ -109,6 +109,37 @@ def customer_page(id):
 
     return render_template("customer.html",id=id,items=items, tasks=tasks)
 
+
+@app.route("/archived_customer")
+def archived_customer_page():
+    # DBから企業一覧を取り出す
+    filepath = "database/todo_app.db"
+    con = sqlite3.connect(filepath)
+    cur = con.cursor()
+    # この中でクエリを書く
+    # 解約済み顧客情報
+    cur.execute("""
+            SELECT
+                customer_id,
+                company,
+                tel,
+                email,
+                contract_name
+            FROM
+                customer
+            LEFT JOIN
+                contract
+            ON
+                customer.is_contract = contract.contract_id
+            WHERE
+                contract_id IS FALSE
+            """)
+    items = cur.fetchall()
+    con.close()
+
+    return render_template("archived_customer.html",items=items)
+
+
 @app.route("/add_customer", methods=["GET","POST"])
 def add_customer_page():
     form = AddCustomerForm(request.form)
@@ -236,13 +267,12 @@ def update_task_page(task_id):
                 FROM
                     task
                 WHERE
-                    deleted_at IS NULL
+                    task_id = {task_id}
+                    AND deleted_at IS NULL
                 """)
         task_update = cur.fetchall()
         print(task_update)
-
-        test = form.pic.default = task_update[0][5]
-        return render_template("update_task.html", form=form, task_id=task_id, task_update=task_update, test = test)
+        return render_template("update_task.html", form=form, task_id=task_id, task_update=task_update)
 
 @app.route("/delete_task-<int:task_id>")
 def delete_task_page(task_id):
@@ -255,7 +285,7 @@ def delete_task_page(task_id):
                 UPDATE
                     task
                 SET
-                    deleted_at = datetime('now')
+                    deleted_at = datetime('now', '+9 hours')
                 WHERE
                     task_id = {task_id}
                 """)
