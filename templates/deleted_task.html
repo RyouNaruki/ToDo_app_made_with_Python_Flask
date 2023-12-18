@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>task_view</title>
+    <title>deleted_task</title>
 
     <!--CSSのコード-->
     <style>
@@ -27,7 +27,7 @@
       <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>タスクページ</h1>
+    <h1>削除済みタスクページ</h1>
     <hr>
     <table border = "1">
         <thead>
@@ -39,7 +39,7 @@
                 <th>期日</th>
                 <th>担当者</th>
                 <th>タスクの進捗状況</th>
-                <th>タスクの削除</th>
+                <th>タスクの復元</th>
             </tr>
         </thead>
         <tbody>
@@ -59,14 +59,14 @@
                     <td>{{ task[5] }}</td>
                     <!-- タスクの進捗状況 -->
                     <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
-                    <!--タスクの削除-->
-                    <td><a href="{{ url_for('delete_task_page', task_id = task[0]) }}">✕</a></td>
+                    <!--タスクの復元-->
+                    <td><a href="{{ url_for('restore_task_page', task_id = task[0]) }}">↺</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧ページへ</a></p>
     <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
-    <p><a href="{{ url_for('deleted_task_page') }}" class = button>削除済みのタスク一覧</a></p>
     <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
 </body>
 </html>

@@ -62,6 +62,7 @@ def task_view_page():
                 task.customer_id = customer.customer_id 
             WHERE
                 progress NOT IN ("完了")
+                AND deleted_at IS NULL
             ORDER BY
                 deadline
             """)
@@ -100,6 +101,8 @@ def customer_page(id):
                 *
             FROM
                 task
+            WHERE
+                deleted_at IS NULL
             """)
     tasks = cur.fetchall()
     con.close()
@@ -173,7 +176,8 @@ def add_task_page():
                                task_content=task_content,
                                deadline=deadline,
                                pic=pic,
-                               progress=progress)
+                               progress=progress,
+                               )
     # GET
     else:
         return render_template("add_task.html", form=form)
@@ -220,8 +224,92 @@ def update_task_page(task_id):
         return redirect(url_for("task_view_page"))
     # GET
     else:
-        return render_template("update_task.html", form=form, task_id=task_id)
+        # DBから企業一覧を取り出す
+        filepath = "database/todo_app.db"
+        con = sqlite3.connect(filepath)
+        cur = con.cursor()
+        # この中でクエリを書く
+        # タスク更新情報
+        cur.execute(f"""
+                SELECT
+                    *
+                FROM
+                    task
+                WHERE
+                    deleted_at IS NULL
+                """)
+        task_update = cur.fetchall()
+        print(task_update)
 
+        test = form.pic.default = task_update[0][5]
+        return render_template("update_task.html", form=form, task_id=task_id, task_update=task_update, test = test)
+
+@app.route("/delete_task-<int:task_id>")
+def delete_task_page(task_id):
+    # DBに顧客情報を追加する
+    filepath = "database/todo_app.db"
+    # databaseにレコードを追加
+    con = sqlite3.connect(filepath)
+    cur = con.cursor()
+    cur.execute(f"""
+                UPDATE
+                    task
+                SET
+                    deleted_at = datetime('now')
+                WHERE
+                    task_id = {task_id}
+                """)
+    con.commit()
+    con.close()
+    return redirect(url_for("task_view_page"))
+
+
+@app.route("/deleted_task")
+def deleted_task_page():
+    #DBからタスク一覧を取り出す
+    filepath = "database/todo_app.db"
+    con = sqlite3.connect(filepath)
+    cur = con.cursor()
+    # この中でクエリを書く
+    # タスクを削除する
+    cur.execute("""
+            SELECT
+                * 
+            FROM
+                task
+            WHERE
+                deleted_at IS NOT NULL
+            """)
+    tasks = cur.fetchall()
+    con.close()
+
+    return render_template("deleted_task.html" , tasks = tasks)
+
+
+@app.route("/restore_task-<int:task_id>")
+def restore_task_page(task_id):
+    # DBに顧客情報を追加する
+    filepath = "database/todo_app.db"
+    # databaseにレコードを追加
+    con = sqlite3.connect(filepath)
+    cur = con.cursor()
+    # タスクを復元するクエリ
+    cur.execute(f"""
+                UPDATE
+                    task
+                SET
+                    deleted_at = NULL
+                WHERE
+                    task_id = {task_id}
+                """)
+    con.commit()
+    con.close()
+    return redirect(url_for("deleted_task_page"))
+
+# 404エラーが発生した場合の処理
+@app.errorhandler(404)
+def error_404(error): # errorは消さない！
+    return render_template('404.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

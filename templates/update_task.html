@@ -82,51 +82,21 @@
           }
     </style>
     <!--ここまでCSSのコード-->
-
-    <!--モーダルウィンドウのJS-->
-    <script>
-        // JavaScriptコードをここに書く
-        $(function(){
-          // 変数に要素を入れる
-          var submitButton = $('submit-buttoon'),
-            close = $('.modal-close'),
-            container = $('.modal-container');
-    
-            
-        // フォームのsubmitイベントをキャッチしてモーダルを表示
-        $('form').on('submit', function(e) {
-            e.preventDefault(); // フォームの通常の送信を防ぐ
-
-            // モーダルを表示
-            container.addClass('active');
-        });
-    
-          // closeボタンをクリックしたらモーダルウィンドウを閉じる
-          close.on('click', function() {
-            container.removeClass('active');
-          });
-    
-          // モーダルウィンドウの外側をクリックしたらモーダルウィンドウを閉じる
-          $(document).on('click', function(e) {
-            if (!$(e.target).closest('.modal-body').length) {
-              container.removeClass('active');
-            }
-          });
-        });
-      </script>
 </head>
 <body>
     <h1>タスク更新ページ</h1>
     <hr>
     <p>タスクID : {{task_id}}</p>
     <form method="POST">
-        {{ form.customer_id.label }}{{ form.customer_id(size=20) }}<br>
-        {{ form.sir.label }}{{ form.sir(size=20) }}<br>
-        {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px") }}<br>
-        {{ form.deadline.label }}{{ form.deadline() }}<br>
-        {{ form.pic.label }}{{ form.pic() }}<br>
-        {{ form.progress.label }}{{ form.progress() }}<br>
-        {{ form.submit() }}
+        {% for task in task_update %}
+            {{ form.customer_id.label }}{{ form.customer_id(size=20, value=task[1] ) }}<br>
+            {{ form.sir.label }}{{ form.sir(size=20, value=task[2]) }}<br>
+            {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px", value=task[3]) }}<br>
+            {{ form.deadline.label }}{{ form.deadline(value=task[4]) }}<br>
+            {{ form.pic.label }}{{ form.pic(value=test) }}<br>
+            {{ form.progress.label }}{{ form.progress(value=task[6]) }}<br>
+            {{ form.submit() }}
+        {% endfor %}
     </form>
     <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
     <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
@@ -151,5 +121,37 @@
             </div>
         </div>
     </div>
+
+    <!--モーダルウィンドウのJS-->
+    <script>
+        // JavaScriptコードをここに書く
+        $(function(){
+            // 変数に要素を入れる
+            var submitButton = $('submit-buttoon'),
+            close = $('.modal-close'),
+            container = $('.modal-container');
+    
+            
+        // フォームのsubmitイベントをキャッチしてモーダルを表示
+        $('form').on('submit', function(e) {
+            e.preventDefault(); // フォームの通常の送信を防ぐ
+
+            // モーダルを表示
+            container.addClass('active');
+        });
+    
+            // closeボタンをクリックしたらモーダルウィンドウを閉じる
+            close.on('click', function() {
+            container.removeClass('active');
+            });
+    
+            // モーダルウィンドウの外側をクリックしたらモーダルウィンドウを閉じる
+            $(document).on('click', function(e) {
+            if (!$(e.target).closest('.modal-body').length) {
+                container.removeClass('active');
+            }
+            });
+        });
+        </script>
 </body>
 </html>

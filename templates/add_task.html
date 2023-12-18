@@ -29,13 +29,14 @@
     <h1>タスク追加ページ</h1>
     <hr>
     <form method="POST">
-        {{ form.customer_id.label }}{{ form.customer_id(size=20) }}<br>
+        {{ form.customer_id.label }}{{ form.customer_id(size=20, value=2) }}<br>
         {{ form.sir.label }}{{ form.sir(size=20) }}<br>
         {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px") }}<br>
         {{ form.deadline.label }}{{ form.deadline() }}<br>
         {{ form.pic.label }}{{ form.pic() }}<br>
         {{ form.progress.label }}{{ form.progress() }}<br>
         {{ form.submit() }}
+    </form>
     <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧ページへ戻る</a></p>
     <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧ページへ</a></p>
 </body>
