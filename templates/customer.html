@@ -71,7 +71,7 @@
                         <!-- タスクの進捗状況 -->
                         <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
                         <!-- タスクの削除 -->
-                        <td><a href="{{ url_for('delete_task_page', task_id = task[0]) }}">✕</a></td>
+                        <td><a href="{{ url_for('delete_task_page', task_id = task[0], customer_id = id) }}">✕</a></td>
                     </tr>
                 {% endif %}
             {% endfor %}

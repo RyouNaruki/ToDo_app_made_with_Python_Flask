@@ -42,7 +42,7 @@
         {% endfor %}
     </form>
     <p><a href="{{ url_for('customer_page', id=customer_id) }}" class = button>顧客情報ページに戻る</a></p>
-    <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
+    <p><a href="{{ url_for('add_task_page', customer_id = customer_id) }}" class = button>タスク追加ページへ移動する</a></p>
     <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧ページへ</a></p>
     <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
 </body>

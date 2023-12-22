@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, flash
 from flask import render_template
 from flask import request
 from flask import redirect
@@ -12,6 +12,7 @@ from forms import AddCustomerForm
 from forms import AddTaskForm
 
 app = Flask(__name__)
+app.secret_key = 'user'
 
 @app.route("/")
 def top_page():
@@ -354,20 +355,49 @@ def update_customer_page(customer_id):
         # databaseにレコードを追加
         con = sqlite3.connect(filepath)
         cur = con.cursor()
-        cur.execute("""UPDATE
-                            customer
-                        SET
-                            company=?,
-                            address=?,
-                            tel=?,
-                            email=?,
-                            contract=?
+        if contract == "解約済み":
+            cur.execute(f"""
+                        SELECT
+                            count(*)
+                        FROM
+                            task
                         WHERE
-                            customer_id=?
-                        """,
-                    (company, address, tel, email, contract, customer_id))
-        con.commit()
-        con.close()
+                            progress NOT IN ('完了')
+                            AND customer_id = {customer_id}
+                            AND deleted_at = NULL
+                        """)
+            output = cur.fetchall()
+            print(output)
+            if output == 0:
+                cur.execute(f"""
+                            UPDATE
+                                customer
+                            SET
+                                contract=?
+                            WHERE
+                                customer_id = ?
+                            """,
+                            (contract, customer_id))
+                con.commit()
+                con.close()            
+            else:
+                flash('まだこちらのお客様のタスクが残っています。')
+                flash('すべてのタスクを完了にしてから更新してください。')
+        else:
+            cur.execute("""UPDATE
+                                customer
+                            SET
+                                company=?,
+                                address=?,
+                                tel=?,
+                                email=?,
+                                contract=?
+                            WHERE
+                                customer_id=?
+                            """,
+                        (company, address, tel, email, contract, customer_id))
+            con.commit()
+            con.close()
         return redirect(url_for("customer_list_page"))
     # GET
     else:

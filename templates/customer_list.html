@@ -28,6 +28,15 @@
 </head>
 <body>
     <h1>契約中顧客一覧</h1>
+    <!-- ▼▼▼ flashメッセージ ▼▼▼ -->
+    {% for message in get_flashed_messages() %}
+    <div style = "color: red;">
+        <li>
+            {{ message }}
+        </li>
+    </div>
+    {% endfor %}
+    <!-- ▲▲▲ flashメッセージ ▲▲▲ -->
     <hr>
     <table border = "1">
         <thead>
