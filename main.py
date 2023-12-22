@@ -20,7 +20,7 @@ def top_page():
 @app.route("/customer_list")
 def customer_list_page():
     # DBから企業一覧を取り出す
-    filepath = "database/todo_app.db"
+    filepath = "database/app.db"
     con = sqlite3.connect(filepath)
     cur = con.cursor()
     # この中でクエリを書く
@@ -28,15 +28,12 @@ def customer_list_page():
             SELECT
                 customer_id,
                 company,
+                address,
                 tel,
                 email,
-                contract_name
+                contract
             FROM
                 customer
-            LEFT JOIN
-                contract
-            ON
-                customer.is_contract = contract.contract_id
             """)
     items = cur.fetchall()
     con.close()
@@ -46,7 +43,7 @@ def customer_list_page():
 @app.route("/task_view")
 def task_view_page():
     #DBからタスク一覧を取り出す
-    filepath = "database/todo_app.db"
+    filepath = "database/app.db"
     con = sqlite3.connect(filepath)
     cur = con.cursor()
     # この中でクエリを書く
@@ -74,7 +71,7 @@ def task_view_page():
 @app.route("/customer-<int:id>")
 def customer_page(id):
     # DBから企業一覧を取り出す
-    filepath = "database/todo_app.db"
+    filepath = "database/app.db"
     con = sqlite3.connect(filepath)
     cur = con.cursor()
     # この中でクエリを書く
@@ -83,15 +80,12 @@ def customer_page(id):
             SELECT
                 customer_id,
                 company,
+                address,
                 tel,
                 email,
-                contract_name
+                contract
             FROM
                 customer
-            LEFT JOIN
-                contract
-            ON
-                customer.is_contract = contract.contract_id
             """)
     items = cur.fetchall()
 
@@ -113,7 +107,7 @@ def customer_page(id):
 @app.route("/archived_customer")
 def archived_customer_page():
     # DBから企業一覧を取り出す
-    filepath = "database/todo_app.db"
+    filepath = "database/app.db"
     con = sqlite3.connect(filepath)
     cur = con.cursor()
     # この中でクエリを書く
@@ -122,17 +116,14 @@ def archived_customer_page():
             SELECT
                 customer_id,
                 company,
+                address,
                 tel,
                 email,
-                contract_name
+                contract
             FROM
                 customer
-            LEFT JOIN
-                contract
-            ON
-                customer.is_contract = contract.contract_id
             WHERE
-                contract_id IS FALSE
+                contract IN ('解約済み')
             """)
     items = cur.fetchall()
     con.close()
@@ -147,26 +138,28 @@ def add_customer_page():
     if request.method == "POST":
         # 会社名
         company = form.company.data
+        # 住所
+        address = form.address.data
         # お電話番号
         tel = form.tel.data
         # メールアドレス
         email = form.email.data
 
         # 契約状況（新たな顧客追加なので強制的に1となる）
-        is_contract = 1
+        contract = form.contract.data
 
         # DBに顧客情報を追加する
-        filepath = "database/todo_app.db"
+        filepath = "database/app.db"
         # databaseにレコードを追加
         con = sqlite3.connect(filepath)
         cur = con.cursor()
-        cur.execute('INSERT INTO customer (company, tel, email, is_contract) VALUES (?, ?, ?, ?)',
-                    (company, tel, email, is_contract))
+        cur.execute('INSERT INTO customer (company, address, tel, email, contract) VALUES (?, ?, ?, ?, ?)',
+                    (company, address, tel, email, contract))
         con.commit()
         con.close()
 
         # データ出力
-        return render_template("success_add_customer.html",company=company,tel=tel,email=email)
+        return render_template("success_add_customer.html",company=company,address=address,tel=tel,email=email,contract=contract)
     # GET
     else:
         return render_template("add_customer.html", form=form)
@@ -191,7 +184,7 @@ def add_task_page():
         progress = form.progress.data
         
         # DBに顧客情報を追加する
-        filepath = "database/todo_app.db"
+        filepath = "database/app.db"
         # databaseにレコードを追加
         con = sqlite3.connect(filepath)
         cur = con.cursor()
@@ -207,7 +200,7 @@ def add_task_page():
                                task_content=task_content,
                                deadline=deadline,
                                pic=pic,
-                               progress=progress,
+                               progress=progress
                                )
     # GET
     else:
@@ -233,7 +226,7 @@ def update_task_page(task_id):
         progress = form.progress.data
         
         # DBに顧客情報を追加する
-        filepath = "database/todo_app.db"
+        filepath = "database/app.db"
         # databaseにレコードを追加
         con = sqlite3.connect(filepath)
         cur = con.cursor()
@@ -256,7 +249,7 @@ def update_task_page(task_id):
     # GET
     else:
         # DBから企業一覧を取り出す
-        filepath = "database/todo_app.db"
+        filepath = "database/app.db"
         con = sqlite3.connect(filepath)
         cur = con.cursor()
         # この中でクエリを書く
@@ -277,7 +270,7 @@ def update_task_page(task_id):
 @app.route("/delete_task-<int:task_id>")
 def delete_task_page(task_id):
     # DBに顧客情報を追加する
-    filepath = "database/todo_app.db"
+    filepath = "database/app.db"
     # databaseにレコードを追加
     con = sqlite3.connect(filepath)
     cur = con.cursor()
@@ -297,7 +290,7 @@ def delete_task_page(task_id):
 @app.route("/deleted_task")
 def deleted_task_page():
     #DBからタスク一覧を取り出す
-    filepath = "database/todo_app.db"
+    filepath = "database/app.db"
     con = sqlite3.connect(filepath)
     cur = con.cursor()
     # この中でクエリを書く
@@ -319,7 +312,7 @@ def deleted_task_page():
 @app.route("/restore_task-<int:task_id>")
 def restore_task_page(task_id):
     # DBに顧客情報を追加する
-    filepath = "database/todo_app.db"
+    filepath = "database/app.db"
     # databaseにレコードを追加
     con = sqlite3.connect(filepath)
     cur = con.cursor()

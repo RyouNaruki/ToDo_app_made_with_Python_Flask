@@ -30,9 +30,11 @@
     <hr>
     <form method="POST">
         {{ form.company.label }}{{ form.company(size=20) }}<br>
+        {{ form.address.label }}{{ form.address(size=30) }}<br>
         {{ form.tel.label }}{{ form.tel(size=20) }}<br>
         {{ form.email.label }}{{ form.email(size=20) }}<br>
         {{ form.confirm_email.label }}{{ form.confirm_email(size=20) }}<br>
+        {{ form.contract.label }}{{ form.contract() }}<br>
         {{ form.submit() }}
     <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧ページへ戻る</a></p>
 </body>

@@ -30,8 +30,10 @@
     <hr>
     <ul>
         <li>会社名：{{ company }}</li>
+        <li>住所：{{ address }}</li>
         <li>電話番号：{{ tel }}</li>
         <li>メールアドレス：{{ email }}</li>
+        <li>契約状況：{{ contract }}</li>
     </ul>
     <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧ページへ戻る</a></p>
 </body>

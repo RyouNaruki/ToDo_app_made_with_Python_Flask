@@ -3,6 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>解約済み顧客一覧</title>
+
+    <!--CSSのコード-->
+    <style>
+        .button {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          text-align: center;
+          text-decoration: none;
+          cursor: pointer;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #f0f0f0;
+          color: #333;
+        }
+    
+        .button:hover {
+          background-color: #e0e0e0;
+        }
+      </style>
+      <!--ここまでCSSのコード-->
 </head>
 <body>
     <h1>解約済み顧客一覧</h1>
@@ -12,6 +33,7 @@
             <tr>
                 <th>顧客ID</th>
                 <th>会社名</th>
+                <th>住所</th>
                 <th>電話番号</th>
                 <th>メールアドレス</th>
                 <th>契約状況</th>
@@ -23,13 +45,15 @@
                 <!-- 顧客ID -->
                 <td>{{ item[0] }}</td>
                 <!-- 会社名 -->
-                <td><a href="{{ url_for('customer_page') }}">{{ item[1] }}</a></td>
-                <!-- 電話番号 -->
+                <td><a href="{{ url_for('customer_page', id=item[0]) }}">{{ item[1] }}</a></td>
+                <!-- 住所 -->
                 <td>{{ item[2] }}</td>
-                <!-- メールアドレス -->
+                <!-- 電話番号 -->
                 <td>{{ item[3] }}</td>
-                <!-- 契約状況 -->
+                <!-- メールアドレス -->
                 <td>{{ item[4] }}</td>
+                <!-- 契約状況 -->
+                <td>{{ item[5] }}</td>
             </tr>
             {% endfor %}
         </tbody>
