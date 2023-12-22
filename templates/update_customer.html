@@ -4,22 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title></title>
+
+    <!--CSSのコード-->
+    <style>
+        /*ボタンのCSS*/
+        .button {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          text-align: center;
+          text-decoration: none;
+          cursor: pointer;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #f0f0f0;
+          color: #333;
+        }
+    
+        .button:hover {
+          background-color: #e0e0e0;
+        }
+    </style>
+    <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>顧客更新ページ</h1>
+    <h1>契約更新ページ</h1>
     <hr>
     <p>顧客ID : {{customer_id}}</p>
     <form method="POST">
-        {% for customer in customer_update %}
+        {% for customer in update_customer %}
             {{ form.company.label }}{{ form.company(size=20, value=customer[1]) }}<br>
-            {{ form.tel.label }}{{ form.tel(size=20, value=customer[2]) }}<br>
-            {{ form.email.label }}{{ form.email(size=20, value=customer[3]) }}<br>
-            {{ form.confirm_email.label }}{{ form.confirm_email(size=20, value=customer[4]) }}<br>
+            {{ form.address.label }}{{ form.address(size=20, value=customer[2]) }}<br>
+            {{ form.tel.label }}{{ form.tel(size=20, value=customer[3]) }}<br>
+            {{ form.email.label }}{{ form.email(size=20, value=customer[4]) }}<br>
+            {{ form.contract.label }}{{ form.contract(value=customer[6]) }}<br>
             {{ form.submit() }}
         {% endfor %}
     </form>
-    <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
+    <p><a href="{{ url_for('customer_page', id=customer_id) }}" class = button>顧客情報ページに戻る</a></p>
     <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
     <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧ページへ</a></p>
+    <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
 </body>
 </html>

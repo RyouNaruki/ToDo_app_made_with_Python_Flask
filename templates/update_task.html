@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>update_task_page</title>
 
     <!--CSSのコード-->
     <style>
@@ -93,7 +93,7 @@
             {{ form.sir.label }}{{ form.sir(size=20, value=task[2]) }}<br>
             {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px", value=task[3]) }}<br>
             {{ form.deadline.label }}{{ form.deadline(value=task[4]) }}<br>
-            {{ form.pic.label }}{{ form.pic(value=test) }}<br>
+            {{ form.pic.label }}{{ form.pic(value=task[5]) }}<br>
             {{ form.progress.label }}{{ form.progress(value=task[6]) }}<br>
             {{ form.submit() }}
         {% endfor %}
