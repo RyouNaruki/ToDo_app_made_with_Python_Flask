@@ -60,7 +60,7 @@
                     <!-- タスクの進捗状況 -->
                     <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
                     <!--タスクの復元-->
-                    <td><a href="{{ url_for('restore_task_page', task_id = task[0]) }}">↺</a></td>
+                    <td><a href="{{ url_for('restore_task_page', task_id = task[0], exit_path='deleted_task_page') }}">↺</a></td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -220,7 +220,7 @@ def add_task_page():
         pic = form.pic.data
         #タスクの進捗状況
         progress = form.progress.data
-        
+
         # DBに顧客情報を追加する
         filepath = "database/app.db"
         # databaseにレコードを追加
@@ -233,13 +233,13 @@ def add_task_page():
 
         #出力
         return render_template("success_add_task.html",
-                               customer_id=customer_id,
-                               sir=sir,
-                               task_content=task_content,
-                               deadline=deadline,
-                               pic=pic,
-                               progress=progress
-                               )
+                                customer_id=customer_id,
+                                sir=sir,
+                                task_content=task_content,
+                                deadline=deadline,
+                                pic=pic,
+                                progress=progress
+                                )
     # GET
     else:
         return render_template("add_task.html", form=form)
@@ -305,8 +305,8 @@ def update_task_page(task_id):
         print(task_update)
         return render_template("update_task.html", form=form, task_id=task_id, task_update=task_update)
 
-@app.route("/delete_task-<int:task_id>")
-def delete_task_page(task_id):
+@app.route("/delete_task-<int:task_id>-<exit_path>")
+def delete_task_page(task_id, exit_path):
     # DBに顧客情報を追加する
     filepath = "database/app.db"
     # databaseにレコードを追加
@@ -322,7 +322,10 @@ def delete_task_page(task_id):
                 """)
     con.commit()
     con.close()
-    return redirect(url_for("task_view_page"))
+    if exit_path == "task_view_page":
+        return redirect(url_for(exit_path))
+    else:
+        return redirect(url_for("customer_page", id=exit_path))
 
 
 @app.route("/deleted_task")
@@ -347,8 +350,8 @@ def deleted_task_page():
     return render_template("deleted_task.html" , tasks = tasks)
 
 
-@app.route("/restore_task-<int:task_id>")
-def restore_task_page(task_id):
+@app.route("/restore_task-<int:task_id>-<exit_path>")
+def restore_task_page(task_id,exit_path):
     # DBに顧客情報を追加する
     filepath = "database/app.db"
     # databaseにレコードを追加
@@ -365,7 +368,8 @@ def restore_task_page(task_id):
                 """)
     con.commit()
     con.close()
-    return redirect(url_for("deleted_task_page"))
+    if exit_path == "deleted_task_page":
+        return redirect(url_for(exit_path))
 
 # 404エラーが発生した場合の処理
 @app.errorhandler(404)
