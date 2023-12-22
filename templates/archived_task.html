@@ -2,8 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>task_view</title>
+    <title>Customer</title>
 
     <!--CSSのコード-->
     <style>
@@ -24,10 +23,21 @@
           background-color: #e0e0e0;
         }
       </style>
-      <!--ここまでCSSのコード-->
+    <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>タスクページ</h1>
+    <h1>顧客情報ページ</h1>
+    <hr>
+    {% for item in items %}
+        {% if customer_id==item[0] %}
+            <li>顧客ID：{{ item[0] }}</li>
+            <li>会社名：{{ item[1] }}</li>
+            <li>住所：{{ item[2] }}</li>
+            <li>電話番号：{{ item[3] }}</li>
+            <li>メールアドレス：{{ item[4] }}</li>
+            <li>契約状況：{{ item[5] }}</li>
+        {% endif %}
+    {% endfor %}
     <hr>
     <table border = "1">
         <thead>
@@ -48,7 +58,7 @@
                     <!-- タスクID -->
                     <td>{{ task[0] }}</td>
                     <!-- 顧客ID -->
-                    <td><a href="{{ url_for('customer_page', id = task[1]) }}">{{ task[1] }}</a></td>
+                    <td>{{ task[1] }}</td>
                     <!-- 先方の担当者様 -->
                     <td>{{ task[2] }}</td>
                     <!-- タスクの内容 -->
@@ -59,14 +69,17 @@
                     <td>{{ task[5] }}</td>
                     <!-- タスクの進捗状況 -->
                     <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
-                    <!--タスクの削除-->
+                    <!-- タスクの削除 -->
                     <td><a href="{{ url_for('delete_task_page', task_id = task[0]) }}">✕</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+
+
+    <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧ページへ戻る</a></p>
+    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧ページへ</a></p>
     <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
-    <p><a href="{{ url_for('deleted_task_page') }}" class = button>削除済みのタスク一覧</a></p>
-    <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
+    <p><a href="{{ url_for('customer_page', id=customer_id) }}" class = button>顧客情報ページへ</a></p>
 </body>
 </html>

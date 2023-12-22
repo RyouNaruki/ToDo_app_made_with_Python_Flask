@@ -96,6 +96,8 @@ def customer_page(id):
             FROM
                 task
             WHERE
+                progress IS NOT ('完了')
+            AND
                 deleted_at IS NULL
             """)
     tasks = cur.fetchall()
@@ -103,6 +105,42 @@ def customer_page(id):
 
     return render_template("customer.html",id=id,items=items, tasks=tasks)
 
+@app.route("/archived_task-<int:customer_id>")
+def archived_task_page(customer_id):
+        # DBから企業一覧を取り出す
+    filepath = "database/app.db"
+    con = sqlite3.connect(filepath)
+    cur = con.cursor()
+    # この中でクエリを書く
+    # 顧客情報
+    cur.execute("""
+            SELECT
+                customer_id,
+                company,
+                address,
+                tel,
+                email,
+                contract
+            FROM
+                customer
+            """)
+    items = cur.fetchall()
+
+        # タスク情報
+    cur.execute(f"""
+            SELECT
+                *
+            FROM
+                task
+            WHERE
+                customer_id={customer_id}
+            AND
+                progress IN ('完了')
+            """)
+    tasks = cur.fetchall()
+    con.close()
+
+    return render_template("archived_task.html",customer_id=customer_id,items=items,tasks=tasks)
 
 @app.route("/archived_customer")
 def archived_customer_page():
@@ -194,8 +232,8 @@ def add_task_page():
         con.close()
 
         #出力
-        return render_template("success_add_task.html", 
-                               customer_id=customer_id, 
+        return render_template("success_add_task.html",
+                               customer_id=customer_id,
                                sir=sir,
                                task_content=task_content,
                                deadline=deadline,
@@ -224,7 +262,7 @@ def update_task_page(task_id):
         pic = form.pic.data
         #タスクの進捗状況
         progress = form.progress.data
-        
+
         # DBに顧客情報を追加する
         filepath = "database/app.db"
         # databaseにレコードを追加
@@ -297,7 +335,7 @@ def deleted_task_page():
     # タスクを削除する
     cur.execute("""
             SELECT
-                * 
+                *
             FROM
                 task
             WHERE

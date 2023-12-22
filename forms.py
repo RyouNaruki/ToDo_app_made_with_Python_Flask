@@ -1,15 +1,15 @@
 from wtforms import Form
 #電話番号のフィールドのインポート
-from wtforms.fields import TelField
+#from wtforms.fields import TelField
 
 from wtforms.fields import (
     StringField, SubmitField,IntegerField,DateField,SelectField
 )
 # python3.11以上の場合
-#from wtforms.fields.html5 import EmailField
-#wtforms.fields.html5.TelField
+from wtforms.fields.html5 import EmailField
+from wtforms.fields.html5 import TelField
 #python 3.11未満の場合
-from wtforms.fields import EmailField
+#from wtforms.fields import EmailField
 
 from wtforms.validators import (
     DataRequired, Email, EqualTo
