@@ -96,7 +96,8 @@ def customer_page(id):
             FROM
                 task
             WHERE
-                deleted_at IS NULL
+                progress NOT IN ("完了")
+                AND deleted_at IS NULL
             """)
     tasks = cur.fetchall()
     con.close()
@@ -145,7 +146,7 @@ def add_customer_page():
         # メールアドレス
         email = form.email.data
 
-        # 契約状況（新たな顧客追加なので強制的に1となる）
+        # 契約状況
         contract = form.contract.data
 
         # DBに顧客情報を追加する
@@ -328,6 +329,63 @@ def restore_task_page(task_id):
     con.commit()
     con.close()
     return redirect(url_for("deleted_task_page"))
+
+@app.route("/update_customer-<int:customer_id>", methods=["GET","POST"])
+def update_customer_page(customer_id):
+    form = AddCustomerForm(request.form)
+    # POST
+    if request.method == "POST":
+        # 会社名
+        company = form.company.data
+        # 住所
+        address = form.address.data
+        # お電話番号
+        tel = form.tel.data
+        # メールアドレス
+        email = form.email.data
+
+        # 契約状況（新たな顧客追加なので強制的に1となる）
+        contract = form.contract.data
+        
+        # DBに顧客情報を追加する
+        filepath = "database/app.db"
+        # databaseにレコードを追加
+        con = sqlite3.connect(filepath)
+        cur = con.cursor()
+        cur.execute("""UPDATE
+                            customer
+                        SET
+                            company=?,
+                            address=?,
+                            tel=?,
+                            email=?,
+                            contract=?
+                        WHERE
+                            customer_id=?
+                        """,
+                    (company, address, tel, email, contract, customer_id))
+        con.commit()
+        con.close()
+        return redirect(url_for("customer_list_page"))
+    # GET
+    else:
+        # DBから企業一覧を取り出す
+        filepath = "database/app.db"
+        con = sqlite3.connect(filepath)
+        cur = con.cursor()
+        # この中でクエリを書く
+        # タスク更新情報
+        cur.execute(f"""
+                SELECT
+                    *
+                FROM
+                    customer
+                WHERE
+                    customer_id = {customer_id}
+                """)
+        update_customer = cur.fetchall()
+        return render_template("update_customer.html", form=form, customer_id=customer_id, update_customer=update_customer)
+
 
 # 404エラーが発生した場合の処理
 @app.errorhandler(404)

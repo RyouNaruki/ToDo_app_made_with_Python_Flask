@@ -48,7 +48,7 @@
                     <!-- タスクID -->
                     <td>{{ task[0] }}</td>
                     <!-- 顧客ID -->
-                    <td>{{ task[1] }}</td>
+                    <td><a href="{{ url_for('customer_page', id=task[1]) }}">{{ task[1] }}</a></td>
                     <!-- 先方の担当者様 -->
                     <td>{{ task[2] }}</td>
                     <!-- タスクの内容 -->
@@ -65,6 +65,7 @@
             {% endfor %}
         </tbody>
     </table>
+    <p><a href="{{ url_for('customer_list_page' )}}" class = button>お客様一覧へ</a></p>
     <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
     <p><a href="{{ url_for('deleted_task_page') }}" class = button>削除済みのタスク一覧</a></p>
     <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>

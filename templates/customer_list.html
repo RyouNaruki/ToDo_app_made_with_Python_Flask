@@ -54,7 +54,7 @@
                 <!-- メールアドレス -->
                 <td>{{ item[4] }}</td>
                 <!-- 契約状況 -->
-                <td>{{ item[5] }}</td>
+                <td><a href="{{ url_for('update_customer_page', customer_id = item[0]) }}">{{ item[5] }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
