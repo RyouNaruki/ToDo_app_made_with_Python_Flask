@@ -355,6 +355,7 @@ def update_customer_page(customer_id):
         # databaseにレコードを追加
         con = sqlite3.connect(filepath)
         cur = con.cursor()
+        # タスクが残っている状態で”解約済み”に出来ないようにするコード（アラート付き）、それ以外の場合は変更可
         if contract == "解約済み":
             cur.execute(f"""
                         SELECT
