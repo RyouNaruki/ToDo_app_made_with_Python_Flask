@@ -3,6 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Customer</title>
+
+    <!--CSSのコード-->
+    <style>
+        .button {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          text-align: center;
+          text-decoration: none;
+          cursor: pointer;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #f0f0f0;
+          color: #333;
+        }
+    
+        .button:hover {
+          background-color: #e0e0e0;
+        }
+      </style>
+    <!--ここまでCSSのコード-->
 </head>
 <body>
     <h1>顧客情報ページ</h1>
@@ -11,9 +32,10 @@
         {% if id==item[0] %}
             <li>顧客ID：{{ item[0] }}</li>
             <li>会社名：{{ item[1] }}</li>
-            <li>電話番号：{{ item[2] }}</li>
-            <li>メールアドレス：{{ item[3] }}</li>
-            <li>契約状況：{{ item[4] }}</li>
+            <li>住所：{{ item[2] }}</li>
+            <li>電話番号：{{ item[3] }}</li>
+            <li>メールアドレス：{{ item[4] }}</li>
+            <li>契約状況：{{ item[5] }}</li>
         {% endif %}
     {% endfor %}
     <hr>
@@ -27,6 +49,7 @@
                 <th>期日</th>
                 <th>担当者</th>
                 <th>タスクの進捗状況</th>
+                <th>タスクの削除</th>
             </tr>
         </thead>
         <tbody>
@@ -46,7 +69,9 @@
                         <!-- 担当者 -->
                         <td>{{ task[5] }}</td>
                         <!-- タスクの進捗状況 -->
-                        <td>{{ task[6] }}</td>
+                        <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
+                        <!-- タスクの削除 -->
+                        <td><a href="{{ url_for('delete_task_page', task_id = task[0]) }}">✕</a></td>
                     </tr>
                 {% endif %}
             {% endfor %}
@@ -54,7 +79,8 @@
     </table>
 
 
-    <p><a href="{{ url_for('customer_list_page') }}">顧客一覧ページへ戻る</a></p>
-    <p><a href="{{ url_for('add_task_page') }}">タスク追加ページへ移動する</a></p>
+    <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧ページへ戻る</a></p>
+    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧ページへ</a></p>
+    <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
 </body>
 </html>

@@ -3,15 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>success_add_customer</title>
+
+    <!--CSSのコード-->
+    <style>
+        .button {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          text-align: center;
+          text-decoration: none;
+          cursor: pointer;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #f0f0f0;
+          color: #333;
+        }
+    
+        .button:hover {
+          background-color: #e0e0e0;
+        }
+      </style>
+      <!--ここまでCSSのコード-->
 </head>
 <body>
     <h1>顧客の追加が完了しました</h1>
     <hr>
     <ul>
         <li>会社名：{{ company }}</li>
+        <li>住所：{{ address }}</li>
         <li>電話番号：{{ tel }}</li>
         <li>メールアドレス：{{ email }}</li>
+        <li>契約状況：{{ contract }}</li>
     </ul>
-    <p><a href="{{ url_for('customer_list_page') }}">顧客一覧ページへ戻る</a></p>
+    <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧ページへ戻る</a></p>
 </body>
 </html>

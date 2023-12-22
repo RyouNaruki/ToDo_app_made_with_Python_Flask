@@ -1,10 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>解約済み顧客一覧</title>
+
+    <!--CSSのコード-->
+    <style>
+        .button {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          text-align: center;
+          text-decoration: none;
+          cursor: pointer;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #f0f0f0;
+          color: #333;
+        }
+    
+        .button:hover {
+          background-color: #e0e0e0;
+        }
+      </style>
+      <!--ここまでCSSのコード-->
 </head>
 <body>
-    <p>今までの客ページ作成予定</p>
+    <h1>解約済み顧客一覧</h1>
+    <hr>
+    <table border = "1">
+        <thead>
+            <tr>
+                <th>顧客ID</th>
+                <th>会社名</th>
+                <th>住所</th>
+                <th>電話番号</th>
+                <th>メールアドレス</th>
+                <th>契約状況</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <!-- 顧客ID -->
+                <td>{{ item[0] }}</td>
+                <!-- 会社名 -->
+                <td><a href="{{ url_for('customer_page', id=item[0]) }}">{{ item[1] }}</a></td>
+                <!-- 住所 -->
+                <td>{{ item[2] }}</td>
+                <!-- 電話番号 -->
+                <td>{{ item[3] }}</td>
+                <!-- メールアドレス -->
+                <td>{{ item[4] }}</td>
+                <!-- 契約状況 -->
+                <td>{{ item[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><a href="{{ url_for('add_customer_page') }}" class = button>顧客追加ページへ</a></p>
+    <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
 </body>
 </html>
