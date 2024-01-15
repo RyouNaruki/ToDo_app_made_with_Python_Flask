@@ -312,7 +312,6 @@ def deleted_task_page():
 
     return render_template("deleted_task.html" , tasks = tasks)
 
-
 @app.route("/restore_task-<int:task_id>")
 def restore_task_page(task_id):
     # DBに顧客情報を追加する
