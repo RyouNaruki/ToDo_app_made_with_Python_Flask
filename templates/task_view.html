@@ -28,6 +28,7 @@
 </head>
 <body>
     <h1>タスクページ</h1>
+    <p>このページは期日が近いタスク順に並んでいます</p>
     <hr>
     <table border = "1">
         <thead>
@@ -59,14 +60,20 @@
                     <td>{{ task[5] }}</td>
                     <!-- タスクの進捗状況 -->
                     <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
-                    <!--タスクの削除-->
-                    <td><a href="{{ url_for('delete_task_page', task_id = task[0]) }}">✕</a></td>
+                    <!-- タスクの削除 -->
+                    <td><a href="{{ url_for('delete_task_page', task_id=task[0]) }}" onclick="return confirmDelete()">✕</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <p><a href="{{ url_for('customer_list_page' )}}" class = button>お客様一覧へ</a></p>
-    <p><a href="{{ url_for('deleted_task_page') }}" class = button>削除済みのタスク一覧</a></p>
-    <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
+    <p><a href="{{ url_for('customer_list_page' )}}" class = button>顧客一覧</a></p>
+    <p><a href="{{ url_for('deleted_task_page') }}" class = button>削除済みタスク一覧</a></p>
+    <p><a href="{{ url_for('top_page') }}" class = button>Top</a></p>
+
+<script>
+    function confirmDelete() {
+        return confirm('タスクを削除しますか？'); // 確認ダイアログを表示
+    }
+</script>
 </body>
 </html>

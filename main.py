@@ -7,7 +7,7 @@ from flask import url_for
 import os
 import sqlite3
 
-# 顧客追加フォームを読み込む
+# 顧客登録フォームを読み込む
 from forms import AddCustomerForm
 from forms import AddTaskForm
 
@@ -101,6 +101,8 @@ def customer_page(id):
             WHERE
                 progress NOT IN ("完了")
                 AND deleted_at IS NULL
+            ORDER BY
+                deadline ASC
             """)
     tasks = cur.fetchall()
     con.close()
@@ -305,13 +307,14 @@ def deleted_task_page():
             FROM
                 task
             WHERE
-                deleted_at IS NOT NULL
+                deleted_at IS NOT NULL 
+            ORDER BY
+                deleted_at DESC
             """)
     tasks = cur.fetchall()
     con.close()
 
     return render_template("deleted_task.html" , tasks = tasks)
-
 
 @app.route("/restore_task-<int:task_id>")
 def restore_task_page(task_id):
@@ -347,7 +350,7 @@ def update_customer_page(customer_id):
         # メールアドレス
         email = form.email.data
 
-        # 契約状況（新たな顧客追加なので強制的に1となる）
+        # 契約状況（新たな顧客登録なので強制的に1となる）
         contract = form.contract.data
         
         # DBに顧客情報を追加する

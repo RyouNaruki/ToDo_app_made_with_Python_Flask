@@ -27,7 +27,7 @@
       <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>削除済みタスクページ</h1>
+    <h1>削除済みタスク</h1>
     <hr>
     <table border = "1">
         <thead>
@@ -60,13 +60,16 @@
                     <!-- タスクの進捗状況 -->
                     <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
                     <!--タスクの復元-->
-                    <td><a href="{{ url_for('restore_task_page', task_id = task[0]) }}">↺</a></td>
+                    <td><a href="{{ url_for('restore_task_page', task_id = task[0]) }}" onclick="return confirmDelete()">↺</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧ページへ</a></p>
-    <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
-    <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
-</body>
+    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧</a></p>
+    <p><a href="{{ url_for('top_page') }}" class = button>Top</a></p>
+<script>
+    function confirmDelete() {
+        return confirm('タスクを復元しますか？'); // 確認ダイアログを表示
+    }
+</script></body>
 </html>
