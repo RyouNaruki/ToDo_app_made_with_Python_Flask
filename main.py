@@ -101,6 +101,8 @@ def customer_page(id):
             WHERE
                 progress NOT IN ("完了")
                 AND deleted_at IS NULL
+            ORDER BY
+                deadline ASC
             """)
     tasks = cur.fetchall()
     con.close()
@@ -170,7 +172,7 @@ def add_customer_page():
 
 # ▼▼▼---ココに、タスク追加をするページを作成してみよう！---▼▼▼
 @app.route("/add_task-<int:customer_id>", methods=["GET","POST"])
-def add_task_page(id):
+def add_task_page(customer_id):
     form = AddTaskForm(request.form)
     # POST
     if request.method == "POST":

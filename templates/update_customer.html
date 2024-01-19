@@ -28,14 +28,10 @@
     <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>契約更新ページ</h1>
+    <h1>契約更新</h1>
     <hr>
     <p>顧客ID : {{customer_id}}</p>
-<<<<<<< Updated upstream
-    <form method="POST" >
-=======
     <form method="POST" action="{{ url_for('add_task_page', customer_id=customer_id) }}">
->>>>>>> Stashed changes
         {% for customer in update_customer %}
             {{ form.company.label }}{{ form.company(size=20, value=customer[1]) }}<br>
             {{ form.address.label }}{{ form.address(size=20, value=customer[2]) }}<br>
