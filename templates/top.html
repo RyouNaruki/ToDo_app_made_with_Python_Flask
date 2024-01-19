@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Top</title>
-    
     <!--CSSのコード-->
     <style>
         .button {
@@ -26,10 +25,21 @@
       <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>ToDo APP</h1>
-    <p><a href="{{ url_for('customer_list_page' )}}" class = button>顧客一覧</a></p>
-    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧</a></p>
-    <p><a href="{{ url_for('archived_customer_page') }}" class = button>解約済み顧客一覧</a></p>
-    <p><a href="{{ url_for('deleted_task_page') }}" class = button>削除済みタスク一覧</a></p>
+	<header>
+		<h1>ToDo APP</h1>
+		<nav>
+			<ul class="main-nav">
+				<li><a href="top.html">Top ページ</li>
+				<li><a href="customer_list.html">顧客一覧</li>
+				<li><a href="task_view.html">タスク一覧</li>
+			</ul>
+		</nav>
+	</header>
+    <footer>
+		<p><a href="{{ url_for('customer_list_page' )}}" class = button>顧客一覧</a></p>
+		<p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧</a></p>
+		<p><a href="{{ url_for('archived_customer_page') }}" class = button>解約済み顧客一覧</a></p>
+		<p><a href="{{ url_for('deleted_task_page') }}" class = button>削除済みタスク一覧</a></p>
+	</footer>
 </body>
 </html>

@@ -28,7 +28,16 @@
     <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>契約更新</h1>
+    <header>
+		<h1>契約更新</h1>
+		<nav>
+			<ul class="main-nav">
+				<li><a href="top.html">Top ページ</li>
+				<li><a href="customer_list.html">顧客一覧</li>
+				<li><a href="task_view.html">タスク一覧</li>
+			</ul>
+		</nav>
+	</header>
     <hr>
     <p>顧客ID : {{customer_id}}</p>
     <form method="POST" onsubmit="return confirmSubmit()">

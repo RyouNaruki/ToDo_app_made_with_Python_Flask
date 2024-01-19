@@ -24,67 +24,20 @@
         .button:hover {
           background-color: #e0e0e0;
         }
-    
-
-        .modal-container {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.5);
-            overflow: auto;
-            opacity: 0;
-            visibility: hidden;
-            transition: .3s ease-out;
-            z-index: 9;
-          }
-           
-          .modal-container::before {
-            content: "";
-            display: inline-block;
-            vertical-align: middle;
-            height: 100%;
-          }
-           
-          .modal-container.active {
-            opacity: 1;
-            visibility: visible;
-          }
-           
-          .modal-body {
-            position: relative;
-            display: inline-block;
-            vertical-align: middle;
-            max-width: 500px;
-            width: 90%;
-          }
-           
-          .modal-close {
-            position: absolute;
-            top: -30px;
-            right: 0;
-            font-size: 14px;
-            color: #fff;
-            background: rgba(0,0,0,60%);
-            padding: 4px 15px;
-            cursor: pointer;
-            border-radius: 5px 5px 0 0;
-          }
-           
-          .modal-content {
-            background: #fff;
-            border: 2px solid #000;
-            text-align: left;
-            padding: 30px;
-            font-weight: bold;
-          }
     </style>
     <!--ここまでCSSのコード-->
 </head>
 <body>
-  <h1>タスクの更新</h1>
+  <header>
+		<h1>タスクの更新</h1>
+		<nav>
+			<ul class="main-nav">
+				<li><a href="top.html">Top ページ</li>
+				<li><a href="customer_list.html">顧客一覧</li>
+				<li><a href="task_view.html">タスク一覧</li>
+			</ul>
+		</nav>
+	</header>
   <hr>
   <p>タスクID : {{ task_id }}</p>
   <form method="POST" onsubmit="return confirmSubmit()">

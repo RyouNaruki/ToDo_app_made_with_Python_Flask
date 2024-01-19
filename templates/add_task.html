@@ -26,7 +26,16 @@
       <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>タスクの追加</h1>
+  <header>
+		<h1>タスクの追加</h1>
+		<nav>
+			<ul class="main-nav">
+				<li><a href="top.html">Top ページ</li>
+				<li><a href="customer_list.html">顧客一覧</li>
+				<li><a href="task_view.html">タスク一覧</li>
+			</ul>
+		</nav>
+	</header>
     <hr>
     <form method="POST" onsubmit="return confirmSubmit()">
         {{ form.customer_id.label }}{{ form.customer_id(size=20, value=customer_id) }}<br>
