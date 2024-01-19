@@ -170,7 +170,7 @@ def add_customer_page():
 
 # ▼▼▼---ココに、タスク追加をするページを作成してみよう！---▼▼▼
 @app.route("/add_task-<int:customer_id>", methods=["GET","POST"])
-def add_task_page(customer_id):
+def add_task_page(id):
     form = AddTaskForm(request.form)
     # POST
     if request.method == "POST":
@@ -305,7 +305,9 @@ def deleted_task_page():
             FROM
                 task
             WHERE
-                deleted_at IS NOT NULL
+                deleted_at IS NOT NULL 
+            ORDER BY
+                deleted_at DESC
             """)
     tasks = cur.fetchall()
     con.close()
