@@ -84,22 +84,65 @@
     <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>タスクの更新</h1>
-    <hr>
-    <p>タスクID : {{task_id}}</p>
-    <form method="POST">
-        {% for task in task_update %}
-            {{ form.customer_id.label }}{{ form.customer_id(size=20, value=task[1] ) }}<br>
-            {{ form.sir.label }}{{ form.sir(size=20, value=task[2]) }}<br>
-            {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px", value=task[3]) }}<br>
-            {{ form.deadline.label }}{{ form.deadline(value=task[4]) }}<br>
-            {{ form.pic.label }}{{ form.pic(value=task[5]) }}<br>
-            {{ form.progress.label }}{{ form.progress(value=task[6]) }}<br>
-            {{ form.submit() }}
-        {% endfor %}
-    </form>
-    <p><a href="{{ url_for('top_page') }}" class = button>Top</a></p>
-    <p><a href="{{ url_for('add_task_page', customer_id=customer_id) }}" class = button>タスクの追加</a></p>
-    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧</a></p>
+  <h1>タスクの更新</h1>
+  <hr>
+  <p>タスクID : {{ task_id }}</p>
+  <form method="POST" onsubmit="return confirmSubmit()">
+      {% for task in task_update %}
+          {{ form.customer_id.label }}{{ form.customer_id(size=20, value=task[1] ) }}<br>
+          {{ form.sir.label }}{{ form.sir(size=20, value=task[2]) }}<br>
+          {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px", value=task[3]) }}<br>
+          {{ form.deadline.label }}{{ form.deadline(value=task[4]) }}<br>
+          {{ form.pic.label }}{{ form.pic(value=task[5]) }}<br>
+          {{ form.progress.label }}{{ form.progress(value=task[6]) }}<br>
+      {% endfor %}
+      {{ form.submit() }}
+  </form>
+  <p><a href="{{ url_for('top_page') }}" class="button">Top</a></p>
+  <p><a href="{{ url_for('task_view_page') }}" class="button">タスク一覧</a></p>
+
+  <script>
+      var initialFormValues = {
+          customer_id: "{{ task_update[0][1] }}",
+          sir: "{{ task_update[0][2] }}",
+          task_content: "{{ task_update[0][3] }}",
+          deadline: "{{ task_update[0][4] }}",
+          pic: "{{ task_update[0][5] }}",
+          progress: "{{ task_update[0][6] }}"
+      };
+
+      function confirmSubmit() {
+          var currentFormValues = {
+              customer_id: document.getElementById("customer_id").value,
+              sir: document.getElementById("sir").value,
+              task_content: document.getElementById("task_content").value,
+              deadline: document.getElementById("deadline").value,
+              pic: document.getElementById("pic").value,
+              progress: document.getElementById("progress").value
+          };
+
+          var formChanged = Object.keys(initialFormValues).some(function (key) {
+              return initialFormValues[key] !== currentFormValues[key];
+          });
+
+          if (formChanged) {
+              // ダイアログで変更内容を一つにまとめて表示
+              var changes = getChangedValues(initialFormValues, currentFormValues);
+              return confirm('変更があります。\n\n' + changes + '\n本当に送信しますか？');
+          }
+
+          return true;
+      }
+
+      function getChangedValues(initialValues, currentValues) {
+          var changes = "";
+          Object.keys(initialValues).forEach(function (key) {
+              if (initialValues[key] !== currentValues[key]) {
+                  changes += key + ': ' + initialValues[key] + ' → ' + currentValues[key] + '\n';
+              }
+          });
+          return changes;
+      }
+  </script>
 </body>
 </html>

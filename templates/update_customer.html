@@ -31,7 +31,7 @@
     <h1>契約更新</h1>
     <hr>
     <p>顧客ID : {{customer_id}}</p>
-    <form method="POST" action="{{ url_for('add_task_page', customer_id=customer_id) }}">
+    <form method="POST" onsubmit="return confirmSubmit()">
         {% for customer in update_customer %}
             {{ form.company.label }}{{ form.company(size=20, value=customer[1]) }}<br>
             {{ form.address.label }}{{ form.address(size=20, value=customer[2]) }}<br>
@@ -41,9 +41,22 @@
             {{ form.submit() }}
         {% endfor %}
     </form>
-    <p><a href="{{ url_for('customer_page', id=customer_id) }}" class = button>顧客情報</a></p>
-    <p><a href="{{ url_for('add_task_page', customer_id = customer_id) }}" class = button>タスクの追加</a></p>
-    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧</a></p>
-    <p><a href="{{ url_for('top_page') }}" class = button>Top</a></p>
+    <p><a href="{{ url_for('customer_list_page') }}" class="button">顧客一覧</a></p>
+    <p><a href="{{ url_for('task_view_page') }}" class="button">タスク一覧</a></p>
+    <p><a href="{{ url_for('top_page') }}" class="button">Top</a></p>
+
+    <script>
+        function confirmSubmit() {
+            // formからきたcontract.labelの値を取得
+            var contractValue = document.getElementById("contract").value;
+            
+            // "解約済み"の場合に確認ダイアログを表示
+            if (contractValue === "解約済み") {
+                return confirm('契約が解約済みです。本当に送信しますか？');
+            }
+
+            // それ以外の場合は通常通りフォームを送信
+            return true;
+        }
+    </script>
 </body>
-</html>
