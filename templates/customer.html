@@ -26,7 +26,7 @@
     <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>顧客情報ページ</h1>
+    <h1>顧客の詳細情報</h1>
     <hr>
     {% for item in items %}
         {% if id==item[0] %}
@@ -82,10 +82,10 @@
     <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧</a></p>
     <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧</a></p>
     <p><a href="{{ url_for('add_task_page', customer_id = id) }}" class = button>タスクを追加</a></p>
-    <script>
-        function confirmDelete() {
-            return confirm('タスクを復元しますか？'); // 確認ダイアログを表示
-        }
-    </script>
+<script>
+    function confirmDelete() {
+        return confirm('タスクを復元しますか？'); // 確認ダイアログを表示
+    }
+</script>
 </body>
 </html>
