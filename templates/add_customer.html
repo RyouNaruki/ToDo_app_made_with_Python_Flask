@@ -26,9 +26,9 @@
       <!--ここまでCSSのコード-->
 </head>
 <body>
-    <h1>顧客の追加</h1>
+    <h1>顧客の登録</h1>
     <hr>
-    <form method="POST">
+    <form method="POST" onsubmit="return confirmSubmit()">
         {{ form.company.label }}{{ form.company(size=20) }}<br>
         {{ form.address.label }}{{ form.address(size=30) }}<br>
         {{ form.tel.label }}{{ form.tel(size=20) }}<br>
@@ -36,6 +36,11 @@
         {{ form.confirm_email.label }}{{ form.confirm_email(size=20) }}<br>
         {{ form.contract.label }}{{ form.contract() }}<br>
         {{ form.submit() }}
-    <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧</a></p>
+    <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧</a></p> 
+	<script>
+        function confirmSubmit() {
+            return confirm('本当にこの内容で顧客を登録しますか？');
+        }
+    </script>
 </body>
 </html>

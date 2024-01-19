@@ -7,7 +7,7 @@ from flask import url_for
 import os
 import sqlite3
 
-# 顧客追加フォームを読み込む
+# 顧客登録フォームを読み込む
 from forms import AddCustomerForm
 from forms import AddTaskForm
 
@@ -350,7 +350,7 @@ def update_customer_page(customer_id):
         # メールアドレス
         email = form.email.data
 
-        # 契約状況（新たな顧客追加なので強制的に1となる）
+        # 契約状況（新たな顧客登録なので強制的に1となる）
         contract = form.contract.data
         
         # DBに顧客情報を追加する
