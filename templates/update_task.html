@@ -98,60 +98,8 @@
             {{ form.submit() }}
         {% endfor %}
     </form>
-    <p><a href="{{ url_for('top_page') }}" class = button>topページに戻る</a></p>
-    <p><a href="{{ url_for('add_task_page') }}" class = button>タスク追加ページへ移動する</a></p>
-    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧ページへ</a></p>
-
-    <!--モーダルウィンドウ-->
-    <div class="modal-container"><!-- モーダルウィンドウ本体の囲み -->
-        <div class="modal-body">
-            <button type="button" class="modal-close">close</button><!-- 閉じるボタン -->
-            <div class="modal-content"><!-- コンテンツエリア -->
-                <div class="inn">
-                    <span class="en">CHECK</span>
-                    <p class="txt">タスクを変更しますか？</p>
-                </div>
-                <div class="gray-bg">
-                    <p class="txt">入力された内容でタスクを更新します。<br>
-                    よろしいですか？</p>
-                </div>
-                <div class="btn-area">
-                    <a href="">更新</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--モーダルウィンドウのJS-->
-    <script>
-        // JavaScriptコードをここに書く
-        $(function(){
-            // 変数に要素を入れる
-            var submitButton = $('submit-buttoon'),
-            close = $('.modal-close'),
-            container = $('.modal-container');
-    
-            
-        // フォームのsubmitイベントをキャッチしてモーダルを表示
-        $('form').on('submit', function(e) {
-            e.preventDefault(); // フォームの通常の送信を防ぐ
-
-            // モーダルを表示
-            container.addClass('active');
-        });
-    
-            // closeボタンをクリックしたらモーダルウィンドウを閉じる
-            close.on('click', function() {
-            container.removeClass('active');
-            });
-    
-            // モーダルウィンドウの外側をクリックしたらモーダルウィンドウを閉じる
-            $(document).on('click', function(e) {
-            if (!$(e.target).closest('.modal-body').length) {
-                container.removeClass('active');
-            }
-            });
-        });
-        </script>
+    <p><a href="{{ url_for('top_page') }}" class = button>Top</a></p>
+    <p><a href="{{ url_for('add_task_page') }}" class = button>タスクの追加</a></p>
+    <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧</a></p>
 </body>
 </html>
