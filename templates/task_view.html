@@ -6,29 +6,16 @@
     <title>task_view</title>
 
     <!--CSSのコード-->
-    <style>
-        .button {
-          display: inline-block;
-          padding: 10px 20px;
-          font-size: 16px;
-          text-align: center;
-          text-decoration: none;
-          cursor: pointer;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          background-color: #f0f0f0;
-          color: #333;
-        }
-    
-        .button:hover {
-          background-color: #e0e0e0;
-        }
-      </style>
-      <!--ここまでCSSのコード-->
+	<!-- Normalize.css の読み込み -->
+    <link rel="stylesheet" href="path/to/normalize.css">
+	<!-- 他のスタイルシートの読み込み -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <!--ここまでCSSのコード-->
+
 </head>
 <body>
-    <header>
-		<h1>タスクページ</h1>
+    <header class="page-header wrapper">
+		<h1><a href="{{ url_for('top_page') }}"><img class="logo" src="static\image\ontology_logo.png" alt="ontology"></a></h1>
 		<nav>
 			<ul class="main-nav">
 				<li><a href="{{ url_for('top_page') }}">Top</a></li>
@@ -36,48 +23,57 @@
 				<li><a href="{{ url_for('task_view_page') }}">タスク一覧</a></li>
 			</ul>
 		</nav>
-        <p>このページは期日が近いタスク順に並んでいます</p>
 	</header>
+
+    <div class="page-title">
+        <h1>タスクページ</h1>
+        <p>このページは期日が近いタスク順に並んでいます</p>
+    </div>
+
     <hr>
-    <table border = "1">
-        <thead>
-            <tr>
-                <th>タスクID</th>
-                <th>顧客ID</th>
-                <th>先方の担当者様</th>
-                <th>タスクの内容</th>
-                <th>期日</th>
-                <th>担当者</th>
-                <th>タスクの進捗状況</th>
-                <th>タスクの削除</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for task in tasks %}
+    <div class="table-container">
+        <table class="table" border = "1">
+            <thead>
                 <tr>
-                    <!-- タスクID -->
-                    <td>{{ task[0] }}</td>
-                    <!-- 顧客ID -->
-                    <td><a href="{{ url_for('customer_page', id=task[1]) }}">{{ task[1] }}</a></td>
-                    <!-- 先方の担当者様 -->
-                    <td>{{ task[2] }}</td>
-                    <!-- タスクの内容 -->
-                    <td>{{ task[3] }}</td>
-                    <!-- 期日 -->
-                    <td>{{ task[4] }}</td>
-                    <!-- 担当者 -->
-                    <td>{{ task[5] }}</td>
-                    <!-- タスクの進捗状況 -->
-                    <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
-                    <!-- タスクの削除 -->
-                    <td><a href="{{ url_for('delete_task_page', task_id=task[0]) }}" onclick="return confirmDelete()">✕</a></td>
+                    <th>タスクID</th>
+                    <th>顧客ID</th>
+                    <th>先方の担当者様</th>
+                    <th>タスクの内容</th>
+                    <th>期日</th>
+                    <th>担当者</th>
+                    <th>タスクの進捗状況</th>
+                    <th>タスクの削除</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <p><a href="{{ url_for('customer_list_page' )}}" class = button>顧客一覧</a></p>
-    <p><a href="{{ url_for('deleted_task_page') }}" class = button>削除済みタスク一覧</a></p>
-    <p><a href="{{ url_for('top_page') }}" class = button>Top</a></p>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <!-- タスクID -->
+                        <td>{{ task[0] }}</td>
+                        <!-- 顧客ID -->
+                        <td><a href="{{ url_for('customer_page', id=task[1]) }}">{{ task[1] }}</a></td>
+                        <!-- 先方の担当者様 -->
+                        <td>{{ task[2] }}</td>
+                        <!-- タスクの内容 -->
+                        <td>{{ task[3] }}</td>
+                        <!-- 期日 -->
+                        <td>{{ task[4] }}</td>
+                        <!-- 担当者 -->
+                        <td>{{ task[5] }}</td>
+                        <!-- タスクの進捗状況 -->
+                        <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}" class = "progress">{{ task[6] }}</a></td>
+                        <!-- タスクの削除 -->
+                        <td><a href="{{ url_for('delete_task_page', task_id=task[0]) }}" class = "task-delete" onclick="return confirmDelete()">✕</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>
+
+    <p><a href="{{ url_for('customer_list_page' )}}" class = "button">顧客一覧</a></p>
+    <p><a href="{{ url_for('deleted_task_page') }}" class = "button">削除済みタスク一覧</a></p>
+    <p><a href="{{ url_for('top_page') }}" class = "button">Top</a></p>
 
 <script>
     function confirmDelete() {

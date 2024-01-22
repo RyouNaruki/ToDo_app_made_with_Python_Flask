@@ -5,29 +5,16 @@
     <title>success_add_customer</title>
 
     <!--CSSのコード-->
-    <style>
-        .button {
-          display: inline-block;
-          padding: 10px 20px;
-          font-size: 16px;
-          text-align: center;
-          text-decoration: none;
-          cursor: pointer;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          background-color: #f0f0f0;
-          color: #333;
-        }
-    
-        .button:hover {
-          background-color: #e0e0e0;
-        }
-      </style>
-      <!--ここまでCSSのコード-->
+	<!-- Normalize.css の読み込み -->
+    <link rel="stylesheet" href="path/to/normalize.css">
+	<!-- 他のスタイルシートの読み込み -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <!--ここまでCSSのコード-->
+
 </head>
 <body>
-  <header>
-		<h1>顧客の登録が完了しました</h1>
+	<header class="page-header wrapper">
+		<h1><a href="{{ url_for('top_page') }}"><img class="logo" src="static\image\ontology_logo.png" alt="ontology"></a></h1>
 		<nav>
 			<ul class="main-nav">
 				<li><a href="{{ url_for('top_page') }}">Top</a></li>
@@ -36,14 +23,22 @@
 			</ul>
 		</nav>
 	</header>
+
+	<div class="page-title">
+		<h1>顧客の登録が完了しました</h1>
+	</div>
+
     <hr>
-    <ul>
-        <li>会社名：{{ company }}</li>
-        <li>住所：{{ address }}</li>
-        <li>電話番号：{{ tel }}</li>
-        <li>メールアドレス：{{ email }}</li>
-        <li>契約状況：{{ contract }}</li>
-    </ul>
+	<div class="result">
+		<ul>
+			<li>会社名：{{ company }}</li>
+			<li>住所：{{ address }}</li>
+			<li>電話番号：{{ tel }}</li>
+			<li>メールアドレス：{{ email }}</li>
+			<li>契約状況：{{ contract }}</li>
+		</ul>
+	</div>
+<hr>
     <p><a href="{{ url_for('customer_list_page') }}" class = button>顧客一覧</a></p>
 </body>
 </html>

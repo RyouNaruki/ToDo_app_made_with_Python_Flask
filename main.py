@@ -368,11 +368,11 @@ def update_customer_page(customer_id):
                         WHERE
                             progress NOT IN ('完了')
                             AND customer_id = {customer_id}
-                            AND deleted_at = NULL
+                            AND deleted_at IS NULL
                         """)
             output = cur.fetchall()
             print(output)
-            if output == 0:
+            if output[0][0] == 0:
                 cur.execute(f"""
                             UPDATE
                                 customer

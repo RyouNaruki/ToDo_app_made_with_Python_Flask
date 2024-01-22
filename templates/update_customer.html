@@ -5,31 +5,16 @@
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title></title>
 
-    <!--CSSのコード-->
-    <style>
-        /*ボタンのCSS*/
-        .button {
-          display: inline-block;
-          padding: 10px 20px;
-          font-size: 16px;
-          text-align: center;
-          text-decoration: none;
-          cursor: pointer;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          background-color: #f0f0f0;
-          color: #333;
-        }
-    
-        .button:hover {
-          background-color: #e0e0e0;
-        }
-    </style>
+   <!--CSSのコード-->
+	<!-- Normalize.css の読み込み -->
+    <link rel="stylesheet" href="path/to/normalize.css">
+	<!-- 他のスタイルシートの読み込み -->
+    <link rel="stylesheet" href="static/css/style.css">
     <!--ここまでCSSのコード-->
 </head>
 <body>
-    <header>
-		<h1>契約更新</h1>
+    <header class="page-header wrapper">
+		<h1><a href="{{ url_for('top_page') }}"><img class="logo" src="static\image\ontology_logo.png" alt="ontology"></a></h1>
 		<nav>
 			<ul class="main-nav">
 				<li><a href="{{ url_for('top_page') }}">Top</a></li>
@@ -38,18 +23,27 @@
 			</ul>
 		</nav>
 	</header>
+    <div class="page-title">
+        <h1>契約更新</h1>
+    </div>
+
     <hr>
-    <p>顧客ID : {{customer_id}}</p>
-    <form method="POST" onsubmit="return confirmSubmit()">
-        {% for customer in update_customer %}
-            {{ form.company.label }}{{ form.company(size=20, value=customer[1]) }}<br>
-            {{ form.address.label }}{{ form.address(size=20, value=customer[2]) }}<br>
-            {{ form.tel.label }}{{ form.tel(size=20, value=customer[3]) }}<br>
-            {{ form.email.label }}{{ form.email(size=20, value=customer[4]) }}<br>
-            {{ form.contract.label }}{{ form.contract(value=customer[6]) }}<br>
-            {{ form.submit() }}
-        {% endfor %}
-    </form>
+
+    <div class="update-customer">
+        <p>顧客ID : {{customer_id}}</p>
+        <form method="POST" onsubmit="return confirmSubmit()">
+            {% for customer in update_customer %}
+                {{ form.company.label }}{{ form.company(size=20, value=customer[1]) }}<br>
+                {{ form.address.label }}{{ form.address(size=20, value=customer[2]) }}<br>
+                {{ form.tel.label }}{{ form.tel(size=20, value=customer[3]) }}<br>
+                {{ form.email.label }}{{ form.email(size=20, value=customer[4]) }}<br>
+                {{ form.contract.label }}{{ form.contract(value=customer[6]) }}<br>
+                {{ form.submit() }}
+            {% endfor %}
+        </form>
+    </div>
+    <hr>
+    
     <p><a href="{{ url_for('customer_list_page') }}" class="button">顧客一覧</a></p>
     <p><a href="{{ url_for('task_view_page') }}" class="button">タスク一覧</a></p>
     <p><a href="{{ url_for('top_page') }}" class="button">Top</a></p>

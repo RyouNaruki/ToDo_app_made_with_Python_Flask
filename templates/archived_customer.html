@@ -5,29 +5,15 @@
     <title>解約済み顧客一覧</title>
 
     <!--CSSのコード-->
-    <style>
-        .button {
-          display: inline-block;
-          padding: 10px 20px;
-          font-size: 16px;
-          text-align: center;
-          text-decoration: none;
-          cursor: pointer;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          background-color: #f0f0f0;
-          color: #333;
-        }
-    
-        .button:hover {
-          background-color: #e0e0e0;
-        }
-      </style>
-      <!--ここまでCSSのコード-->
+	<!-- Normalize.css の読み込み -->
+    <link rel="stylesheet" href="path/to/normalize.css">
+	<!-- 他のスタイルシートの読み込み -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <!--ここまでCSSのコード-->
 </head>
 <body>
-    <header>
-		<h1>解約済み顧客一覧</h1>
+    <header class="page-header wrapper">
+		<h1><a href="{{ url_for('top_page') }}"><img class="logo" src="static\image\ontology_logo.png" alt="ontology"></a></h1>
 		<nav>
 			<ul class="main-nav">
 				<li><a href="{{ url_for('top_page') }}">Top</a></li>
@@ -36,37 +22,43 @@
 			</ul>
 		</nav>
 	</header>
+    <div class="page-title">
+        <h1>解約済み顧客一覧</h1>
+    </div>
     <hr>
-    <table border = "1">
-        <thead>
-            <tr>
-                <th>顧客ID</th>
-                <th>会社名</th>
-                <th>住所</th>
-                <th>電話番号</th>
-                <th>メールアドレス</th>
-                <th>契約状況</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <!-- 顧客ID -->
-                <td>{{ item[0] }}</td>
-                <!-- 会社名 -->
-                <td><a href="{{ url_for('customer_page', id=item[0]) }}">{{ item[1] }}</a></td>
-                <!-- 住所 -->
-                <td>{{ item[2] }}</td>
-                <!-- 電話番号 -->
-                <td>{{ item[3] }}</td>
-                <!-- メールアドレス -->
-                <td>{{ item[4] }}</td>
-                <!-- 契約状況 -->
-                <td><a href="{{ url_for('update_customer_page', customer_id = item[0]) }}">{{ item[5] }}</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table class="table" border = "1">
+            <thead>
+                <tr>
+                    <th>顧客ID</th>
+                    <th>会社名</th>
+                    <th>住所</th>
+                    <th>電話番号</th>
+                    <th>メールアドレス</th>
+                    <th>契約状況</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <!-- 顧客ID -->
+                    <td>{{ item[0] }}</td>
+                    <!-- 会社名 -->
+                    <td><a href="{{ url_for('customer_page', id=item[0]) }}">{{ item[1] }}</a></td>
+                    <!-- 住所 -->
+                    <td>{{ item[2] }}</td>
+                    <!-- 電話番号 -->
+                    <td>{{ item[3] }}</td>
+                    <!-- メールアドレス -->
+                    <td>{{ item[4] }}</td>
+                    <!-- 契約状況 -->
+                    <td><a href="{{ url_for('update_customer_page', customer_id = item[0]) }}" class="progress">{{ item[5] }}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>
     <p><a href="{{ url_for('add_customer_page') }}" class = button>顧客の登録</a></p>
     <p><a href="{{ url_for('top_page') }}" class = button>Top</a></p>
 </body>

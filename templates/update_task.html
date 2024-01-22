@@ -6,30 +6,15 @@
     <title>update_task_page</title>
 
     <!--CSSのコード-->
-    <style>
-        /*ボタンのCSS*/
-        .button {
-          display: inline-block;
-          padding: 10px 20px;
-          font-size: 16px;
-          text-align: center;
-          text-decoration: none;
-          cursor: pointer;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          background-color: #f0f0f0;
-          color: #333;
-        }
-    
-        .button:hover {
-          background-color: #e0e0e0;
-        }
-    </style>
+	<!-- Normalize.css の読み込み -->
+    <link rel="stylesheet" href="path/to/normalize.css">
+	<!-- 他のスタイルシートの読み込み -->
+    <link rel="stylesheet" href="static/css/style.css">
     <!--ここまでCSSのコード-->
 </head>
 <body>
-  <header>
-		<h1>タスクの更新</h1>
+    <header class="page-header wrapper">
+		<h1><a href="{{ url_for('top_page') }}"><img class="logo" src="static\image\ontology_logo.png" alt="ontology"></a></h1>
 		<nav>
 			<ul class="main-nav">
 				<li><a href="{{ url_for('top_page') }}">Top</a></li>
@@ -38,19 +23,25 @@
 			</ul>
 		</nav>
 	</header>
+    <div class="page-title">
+        <h1>タスクの更新</h1>
+    </div>
   <hr>
-  <p>タスクID : {{ task_id }}</p>
-  <form method="POST" onsubmit="return confirmSubmit()">
-      {% for task in task_update %}
-          {{ form.customer_id.label }}{{ form.customer_id(size=20, value=task[1] ) }}<br>
-          {{ form.sir.label }}{{ form.sir(size=20, value=task[2]) }}<br>
-          {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px", value=task[3]) }}<br>
-          {{ form.deadline.label }}{{ form.deadline(value=task[4]) }}<br>
-          {{ form.pic.label }}{{ form.pic(value=task[5]) }}<br>
-          {{ form.progress.label }}{{ form.progress(value=task[6]) }}<br>
-      {% endfor %}
-      {{ form.submit() }}
-  </form>
+  <div class="update-task">
+    <p>タスクID : {{ task_id }}</p>
+    <form method="POST" onsubmit="return confirmSubmit()">
+        {% for task in task_update %}
+            {{ form.customer_id.label }}{{ form.customer_id(size=20, value=task[1] ) }}<br>
+            {{ form.sir.label }}{{ form.sir(size=20, value=task[2]) }}<br>
+            {{ form.task_content.label }}{{ form.task_content(style="height:50px; width:150px", value=task[3]) }}<br>
+            {{ form.deadline.label }}{{ form.deadline(value=task[4]) }}<br>
+            {{ form.pic.label }}{{ form.pic(value=task[5]) }}<br>
+            {{ form.progress.label }}{{ form.progress(value=task[6]) }}<br>
+        {% endfor %}
+        {{ form.submit() }}
+    </form>
+  </div>
+  <hr>
   <p><a href="{{ url_for('top_page') }}" class="button">Top</a></p>
   <p><a href="{{ url_for('task_view_page') }}" class="button">タスク一覧</a></p>
 

@@ -6,29 +6,15 @@
     <title>deleted_task</title>
 
     <!--CSSのコード-->
-    <style>
-        .button {
-          display: inline-block;
-          padding: 10px 20px;
-          font-size: 16px;
-          text-align: center;
-          text-decoration: none;
-          cursor: pointer;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          background-color: #f0f0f0;
-          color: #333;
-        }
-    
-        .button:hover {
-          background-color: #e0e0e0;
-        }
-      </style>
-      <!--ここまでCSSのコード-->
+	<!-- Normalize.css の読み込み -->
+    <link rel="stylesheet" href="path/to/normalize.css">
+	<!-- 他のスタイルシートの読み込み -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <!--ここまでCSSのコード-->
 </head>
 <body>
-    <header>
-		<h1>削除済みタスク</h1>
+    <header class="page-header wrapper">
+		<h1><a href="{{ url_for('top_page') }}"><img class="logo" src="static\image\ontology_logo.png" alt="ontology"></a></h1>
 		<nav>
 			<ul class="main-nav">
 				<li><a href="{{ url_for('top_page') }}">Top</a></li>
@@ -37,49 +23,59 @@
 			</ul>
 		</nav>
 	</header>
+
+    <div class="page-title">
+        <h1>削除済みタスク</h1>
+    </div>
  
     <hr>
-    <table border = "1">
-        <thead>
-            <tr>
-                <th>タスクID</th>
-                <th>顧客ID</th>
-                <th>先方の担当者様</th>
-                <th>タスクの内容</th>
-                <th>期日</th>
-                <th>担当者</th>
-                <th>タスクの進捗状況</th>
-                <th>タスクの復元</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for task in tasks %}
+    <div class="table-container">
+        <table class="table" border = "1">
+            <thead>
                 <tr>
-                    <!-- タスクID -->
-                    <td>{{ task[0] }}</td>
-                    <!-- 顧客ID -->
-                    <td>{{ task[1] }}</td>
-                    <!-- 先方の担当者様 -->
-                    <td>{{ task[2] }}</td>
-                    <!-- タスクの内容 -->
-                    <td>{{ task[3] }}</td>
-                    <!-- 期日 -->
-                    <td>{{ task[4] }}</td>
-                    <!-- 担当者 -->
-                    <td>{{ task[5] }}</td>
-                    <!-- タスクの進捗状況 -->
-                    <td><a href="{{ url_for('update_task_page', task_id = task[0]) }}">{{ task[6] }}</a></td>
-                    <!--タスクの復元-->
-                    <td><a href="{{ url_for('restore_task_page', task_id = task[0]) }}" onclick="return confirmDelete()">↺</a></td>
+                    <th>タスクID</th>
+                    <th>顧客ID</th>
+                    <th>先方の担当者様</th>
+                    <th>タスクの内容</th>
+                    <th>期日</th>
+                    <th>担当者</th>
+                    <th>タスクの進捗状況</th>
+                    <th>タスクの復元</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <!-- タスクID -->
+                        <td>{{ task[0] }}</td>
+                        <!-- 顧客ID -->
+                        <td>{{ task[1] }}</td>
+                        <!-- 先方の担当者様 -->
+                        <td>{{ task[2] }}</td>
+                        <!-- タスクの内容 -->
+                        <td>{{ task[3] }}</td>
+                        <!-- 期日 -->
+                        <td>{{ task[4] }}</td>
+                        <!-- 担当者 -->
+                        <td>{{ task[5] }}</td>
+                        <!-- タスクの進捗状況 -->
+                        <td>{{ task[6] }}</td>
+                        <!--タスクの復元-->
+                        <td><a href="{{ url_for('restore_task_page', task_id = task[0]) }}" onclick="return confirmDelete()">↺</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>
+
     <p><a href="{{ url_for('task_view_page') }}" class = button>タスク一覧</a></p>
     <p><a href="{{ url_for('top_page') }}" class = button>Top</a></p>
-<script>
+
+    <script>
     function confirmDelete() {
         return confirm('タスクを復元しますか？'); // 確認ダイアログを表示
     }
-</script></body>
+</script>
+</body>
 </html>
