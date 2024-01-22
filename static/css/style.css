@@ -1,12 +1,11 @@
 @charset "UTF-8";
 
-/*共通部分*/
+/* 共通部分 */
 html {
     font-size: 100%;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
 }
 
 body {
@@ -25,39 +24,40 @@ img {
     max-width: 100%;
 }
 
-/*ここまで共通部分*/
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
-/*HEADER*/
+/* ここまで共通部分 */
+
+/* HEADER */
 .page-header {
     display: flex;
     justify-content: space-between;
     position: fixed;
-    background-color: #333;
+    background-color: #2d2b2b;
     width: 100%;
-
+    height: 80px;
 }
 
-.logo{
+.logo {
     width: 210px;
-    padding-top: 14px;
 }
 
 .main-nav {
-    padding-top: 60px;
+    padding-top: 25px;
     display: flex;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     text-transform: uppercase;
     margin: 0;
     list-style: none;
     width: 100%;
 }
 
-
 .main-nav li {
-    margin-left:36px;
+    margin-left: 36px;
 }
-
-
 
 .main-nav a {
     text-decoration: none; /* リンクの下線を非表示にする */
@@ -68,22 +68,19 @@ img {
     color: #0bd;
 }
 
-
 .wrapper {
     width: 95%;
     padding: 0 4%;
-
 }
 
-/*ここまでHEADER*/
+/* ここまでHEADER */
 
 .page-title {
     width: 90%;
     margin: 0;
     text-align: left;
     padding-left: 100px;
-    padding-top: 150px;
-    padding-bottom: 20px;
+    padding-top: 80px;
     padding-right: 0;
 }
 
@@ -92,20 +89,48 @@ img {
     padding-left: 100px;
 }
 
-.result li{
+.result li {
     list-style: none;
     padding-left: 100px;
 }
 
-/*FOOTER*/
+/* FOOTER */
 
 .table-container {
     text-align: center;
 }
 
+/* テーブルのスタイル */
 .table {
     margin: auto;
-    border-collapse: collapse; 
+    border-collapse: collapse;
+    width: 90%; /* テーブルの幅を90%に設定 */
+}
+
+/* テーブルのセルに余白を追加 */
+.table th, .table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+/* メディアクエリ: デバイスの幅によって文字サイズを変更 */
+@media screen and (max-width: 600px) {
+    .table th {
+        font-size: 12px; /* デバイス幅600px以下の場合の文字サイズ */
+    }
+}
+
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    .table th {
+        font-size: 14px; /* デバイス幅601px以上、1024px以下の場合の文字サイズ */
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .table th {
+        font-size: 16px; /* デバイス幅1025px以上の場合の文字サイズ */
+    }
 }
 
 .progress {
@@ -116,10 +141,9 @@ img {
     color: rgb(8, 8, 219);
 }
 
-.td progress  {
+.td progress {
     text-align: center;
 }
-
 
 .button {
     display: inline-block;
@@ -132,14 +156,15 @@ img {
     border-radius: 5px;
     background-color: #f0f0f0;
     color: #333;
- 
+    /* 追加: ボタンホバー時のスタイル */
+    transition: background-color 0.3s ease;
+}
 
-  }
-
-  p {
+p {
     padding-left: 30px;
-  }
+}
 
-  .button:hover {
+.button:hover {
     background-color: #e0e0e0;
-  }
+    /* 追加: ボタンホバー時の背景色 */
+}
