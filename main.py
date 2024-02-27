@@ -1,8 +1,6 @@
-from flask import Flask, flash
-from flask import render_template
-from flask import request
-from flask import redirect
-from flask import url_for
+from flask import Flask, flash, render_template, request, redirect, url_for
+from forms import MemoForm, LoginForm, SignUpForm
+from flask_login import login_user, logout_user
 
 import os
 import sqlite3
@@ -430,3 +428,105 @@ def error_404(error): # errorは消さない！
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+    
+# 認証機能モデル
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash,  check_password_hash
+from flask_login import UserMixin
+from flask_migrate import Migrate
+from models import db, User
+from flask_login import LoginManager
+
+# User
+class User(UserMixin, db.Model):
+    # テーブル名
+    __tablename__ == 'users'
+    # ID(PK)
+    id = db.Column(db.Integer, primary_key=True)
+    # ユーザー
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    # パスワード
+    password = db.Column(db.String(120), nullable=False)
+    # パスワードをハッシュ化して設定する
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+    # 入力したパスワードとハッシュかれたパスワードの比較
+    def check_password(self, password):
+        return check_password_hash(self.passworad, password)
+    
+    
+#  マイグレーションとの紐づけ（Flaskとdb）
+migrate = Migrate(app, db) # このappは修正必要な可能性あり
+
+# LoginManegerインスタンス
+login_manager = LoginManager()
+
+# Login_managerとFlaskの紐づけ
+login_manager.init_app(app) # このappは修正必要な可能性あり
+
+# 未認証のユーザーがアクセスしようとした時にリダイレクトされる関数名を設定する
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# ログイン（Formしよう）
+@app.route("/", methods=["GET", "POST"])
+def login():
+    # Formインスタンス生成
+    form = LoginForm
+    if form.validate_on_submit():
+        # データ入力取得
+        username = form.username.data
+        password = form.password.data
+        # 対象User取得
+        user = User.query.filter_by(username=username).first()
+        # 認証判定
+        if user is not None and user.check_password(password):
+            # 成功
+            # 引数としてわたされたuserオブジェクトを使用して、ユーザーをログイン状態にする
+            login_user(user)
+            # 画面遷移
+            return redirect(url_for("index"))
+        # 失敗
+        flash("認証不備です。")
+    # GET時
+    # 画面遷移
+    return render_template("login_form.html", form=form)
+
+# ログアウト
+@app.route("/logout")
+def logout():
+    # 現在ログアウトしているユーザーをログアウトする
+    logout_user()
+    # フラッシュメッセージ
+    flash("ログアウトしました")
+    # 画面遷移
+    return redirect(url_for("login"))
+
+# サインアップ（Form使用）
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    # Formインスタンス生成
+    form = SignUpForm()
+    if form.validate_on_submit():
+        # データ入力取得
+        username = form.username.data
+        password = form.password.data
+        # モデルを生成
+        user = User(username=username)
+        # パスワードハッシュ化
+        user.set_password(password)
+        # 登録処理
+        db.session.add(user)
+        db.session.commit()
+        # フラッシュメッセージ
+        flash("ユーザー登録しました。")
+        # 画面遷移
+        return redirect(url_for("login"))
+    # GET時
+    # 画面遷移
+    return render_template("register_form.html", form=form)
+

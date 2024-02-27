@@ -36,7 +36,7 @@ class AddCustomerForm(Form):
                                             ])
     
     # ボタン
-    submit = SubmitField("送信")
+    submit = SubmitField("顧客を追加")
 
 # ▼▼▼タスク追加フォームの型を作ってみよう▼▼▼
 class AddTaskForm(Form):
@@ -64,5 +64,48 @@ class AddTaskForm(Form):
                                                         ])
 
     # ボタン
-    submit = SubmitField("送信")
+    submit = SubmitField("タスクを追加")
 # ▲▲▲タスク追加フォームの型を作ってみよう▲▲▲
+
+# サインイン・ログイン用のインポート
+from wtforms import PasswordField
+from wtforms.validators import DataRequired, Length, ValidationError
+from models import Memo, User
+
+# ▼▼▼サインインのフォームを作成▼▼▼
+
+class SignUpForm(LoginForm):
+    # ボタン
+    submit = SubmitField('サインアップ')
+    
+    # カスタムバリデータ
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('そのユーザー名は既に使用されています。')
+
+# ▲▲▲サインインのフォームを作成▲▲▲
+# ▼▼▼ログインのフォームを作成▼▼▼
+
+class LoginForm(FlaskForm):
+    username = StringField('ユーザー名：',
+                           validators=['ユーザー名は必須入力です。'])
+    # パスワード：パスワード入力
+    password = PasswordField('パスワード:',
+                             validators=[Length(4, 10,
+                                    'パスワードの長さは4文字以上10文字以内です。')])
+    
+    # ボタン
+    submit = SubmitField('ログイン')
+    
+    # カスタムバリデータ
+    # 英数字と記号が含まれているかチェックする
+    def validate_password(self, password):
+        if not (any(c.isalpha() for c in password.data) and ¥ 
+            any(c.isdigit() for c in password.data) and ¥ 
+            any(c in '!@#$%^&*()' for c in password.data)):
+            raise ValidationError('パスワードには【英数字と記号：!@#$%^&*()】を含める必要があります。')
+            
+
+# ▲▲▲ログインのフォームを作成▲▲▲
+
